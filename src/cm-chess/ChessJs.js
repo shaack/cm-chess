@@ -3,11 +3,11 @@
  * Repository: https://github.com/shaack/cm-chess
  * License: MIT, see file 'LICENSE'
  */
-import('../../lib/chess.js')
 
 export class ChessJs {
+
     constructor() {
-        this.chessJs = new Chess()
+        this.chessJs = new Chess() // `chess.js` must be previously included
     }
 
     // the chess.js API
