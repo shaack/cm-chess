@@ -6,18 +6,22 @@
 import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 import {ChessJs} from "./ChessJs.js"
 
-class CmChess extends ChessJs {
+export class Chess extends ChessJs {
+
+    static FEN = {
+        empty: "8/8/8/8/8/8/8/8 w - - 0 1",
+        start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    }
 
     constructor(fen) {
         super(fen)
-        this.state.pgn = new Pgn()
+        // this.state.pgn = new Pgn() ToDo
     }
 
     // overrides of the chess.js API
-
+    /* only standard chess.js for now
     load_pgn(pgn, options) {
         return this.state.pgn.parse(pgn, options) // ToDo, load_pgn
     }
+     */
 }
-
-export {CmChess as Chess}

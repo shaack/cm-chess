@@ -4,8 +4,6 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-
 export class ChessJs {
 
     constructor(fen) {
@@ -14,6 +12,7 @@ export class ChessJs {
         if(!fen) {
             this.state.chessJs.clear()
         }
+        this.SQUARES = this.state.chessJs.SQUARES
     }
 
     // the chess.js API
