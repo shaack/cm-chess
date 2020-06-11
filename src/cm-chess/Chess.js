@@ -3,10 +3,12 @@
  * Repository: https://github.com/shaack/cm-chess
  * License: MIT, see file 'LICENSE'
  */
-import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-import {ChessJs} from "./ChessJs.js"
+// import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 
-export class Chess extends ChessJs {
+/**
+ * chess.js must be included in the HTML
+ */
+class CmChess extends Chess {
 
     static FEN = {
         empty: "8/8/8/8/8/8/8/8 w - - 0 1",
@@ -18,10 +20,36 @@ export class Chess extends ChessJs {
         // this.state.pgn = new Pgn() ToDo
     }
 
-    // overrides of the chess.js API
-    /* only standard chess.js for now
-    load_pgn(pgn, options) {
-        return this.state.pgn.parse(pgn, options) // ToDo, load_pgn
-    }
-     */
+    /*
+      // the chess.js API
+      // https://github.com/jhlywa/chess.js/blob/master/README.md
+
+      - ascii()
+      - board()
+      - clear()
+      - fen()
+      - game_over()
+      - get(square)
+      - history(options) // todo cm-pgn
+      - in_check()
+      - in_checkmate()
+      - in_draw()
+      - in_stalemate()
+      - in_threefold_repetition()
+      - header() // ToDo, return cm-pgns header (Tags)
+      - insufficient_material()
+      - load(fen)  ToDo cm-pgn
+      - load_pgn(pgn, options) // ToDo cm-pgn
+      - move(move, options) // ToDo add Variants
+      - moves(options)
+      - pgn(options) // todo cm-pgn
+      - put(piece, square)
+      - remove(square)
+      - reset()
+      - turn()
+      - undo()
+      - validate_fen(fen)
+   */
 }
+
+export {CmChess as Chess}
