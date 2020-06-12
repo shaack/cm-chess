@@ -4,9 +4,11 @@
  * License: MIT, see file 'LICENSE'
  */
 
-import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-
-export class ChessJs extends Chess {
+/**
+ * chess.js must be included in the HTML.
+ * Extending it, converts it into a ES6 Module.
+ */
+export class ChessJsProxy extends Chess {
 
     constructor(fen) {
         super(fen)
@@ -40,7 +42,7 @@ export class ChessJs extends Chess {
     }
 
     history(options) {
-        return super.history(options) // ToDo add multiple variants
+        return super.history(options)
     }
 
     in_check() {
