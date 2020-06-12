@@ -4,7 +4,7 @@ import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
 describe("Chess", function () {
     it("should create empty Chess", () => {
         const chess = new Chess()
-        Assert.equals(chess.fen(), Chess.FEN.start)
+        Assert.equals(chess.fen(), chess.FEN.start)
     })
 
     it("should load a simple pgn", function() {
