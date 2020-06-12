@@ -32,4 +32,39 @@ describe("Chess", function () {
         const chess = new Chess()
         Assert.equals(chess.SQUARES[1], "b8")
     })
+
+    it("should load a pgn with SetUp", () => {
+        const chess = new Chess()
+        const pgn = `[Event "?"]
+[White "?"]
+[Black "?"]
+[Result "0-1"]
+[SetUp "1"]
+[FEN "5rk1/2nb1p1p/1p4p1/p2p2P1/1p2qP1P/1P2P3/P1Q1NK2/1B5R w - - 0 1"]
+
+1. Qc1 Qe6 2. Qxc7 
+0-1`
+        chess.load_pgn(pgn)
+        Assert.equals(chess.history()[2], "Qxc7")
+    })
+
+    it("should load a pgn with a variant", () => {
+        const chess = new Chess()
+        const pgn = `[Event "?"]
+[Site "?"]
+[Date "2012.??.??"]
+[Round "?"]
+[White "Schaak opheffen"]
+[Black "Materiaal"]
+[Result "0-1"]
+[Annotator "S3"]
+[Annotator "app 037-1"]
+[SetUp "1"]
+[FEN "r1b1Q1k1/1p2bpqp/8/8/p1Pr4/4PpN1/P6P/R4RK1 b - - 0 1"]
+
+1... Bf8 (1... Qf8? 2. Qxf8+ Bxf8 3. exd4) 2. exd4 Qxd4+ {%Q} 3. Kh1 Bh3 
+0-1`
+        chess.load_pgn(pgn)
+        console.log(chess.history())
+    })
 })

@@ -5,10 +5,12 @@
  */
 // import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 
+import {ChessJs} from "./ChessJs.js"
+
 /**
  * chess.js must be included in the HTML
  */
-class CmChess extends Chess {
+export class Chess extends ChessJs {
 
     constructor(fen) {
         super(fen)
@@ -50,5 +52,3 @@ class CmChess extends Chess {
       - validate_fen(fen)
    */
 }
-
-export {CmChess as Chess}
