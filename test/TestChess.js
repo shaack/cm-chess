@@ -1,10 +1,11 @@
-import {Chess} from "../src/cm-chess/Chess.js"
+import {Chess, FEN} from "../src/cm-chess/Chess.js"
 import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
+import {TAGS} from "../lib/cm-pgn/Header.js"
 
 describe("Chess", function () {
     it("should create empty Chess", () => {
         const chess = new Chess()
-        Assert.equals(chess.fen(), chess.FEN.start)
+        Assert.equals(chess.fen(), FEN.start)
     })
 
     it("should load a simple pgn", function() {
@@ -45,10 +46,10 @@ describe("Chess", function () {
 1. Qc1 Qe6 2. Qxc7 
 0-1`
         chess.load_pgn(pgn)
-        Assert.equals(chess.history()[2], "Qxc7")
+        Assert.equals(chess.history()[2].san, "Qxc7")
     })
 
-    it("should load a pgn with a variant", () => {
+    it('should parse stappenmethode weekly.pgn', () => {
         const chess = new Chess()
         const pgn = `[Event "?"]
 [Site "?"]
@@ -64,7 +65,24 @@ describe("Chess", function () {
 
 1... Bf8 (1... Qf8? 2. Qxf8+ Bxf8 3. exd4) 2. exd4 Qxd4+ {%Q} 3. Kh1 Bh3 
 0-1`
-        chess.load_pgn(pgn)
-        console.log(chess.history())
+        chess.load_pgn(pgn, {}, true)
+        Assert.equals(5, chess.cmPgn.history.moves.length)
+        Assert.equals("Schaak opheffen", chess.cmPgn.header.tags.get(TAGS.White))
+        Assert.equals("app 037-1", chess.cmPgn.header.tags.get(TAGS.Annotator))
     })
+
+    it('should allow traverse through moves', () => {
+        const chess = new Chess()
+        const pgn = `[SetUp "1"]
+[FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
+
+1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
+1-0`
+        chess.load_pgn(pgn)
+        const firstMove = chess.history()[0]
+        Assert.equals(firstMove.san, "Qc5+")
+        // TODO const secondMove = move.next()
+        // Assert.equals(secondMove.san, "f4")
+    })
+
 })

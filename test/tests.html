@@ -1,8 +1,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Mocha Tests</title>
-    <link href="../node_modules/mocha/mocha.css" rel="stylesheet" />
+    <title>cm-chess tests</title>
+    <link href="../node_modules/mocha/mocha.css" rel="stylesheet"/>
 </head>
 <body>
 <div id="mocha"></div>
@@ -12,9 +12,10 @@
 
 <script>mocha.setup('bdd')</script>
 <script type="module" src="./TestChess.js"></script>
+<script type="module" src="./TestChessRender.js"></script>
 <script type="module">
-    mocha.checkLeaks();
-    mocha.run();
+    mocha.checkLeaks()
+    mocha.run()
 </script>
 </body>
 </html>

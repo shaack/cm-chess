@@ -6,30 +6,29 @@
 import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 import {ChessJsProxy} from "./ChessJsProxy.js"
 
+export const COLOR = {
+    white: "w",
+    black: "b"
+}
+
+export const FEN = {
+    empty: "8/8/8/8/8/8/8/8 w - - 0 1",
+    start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+}
+
 export class Chess extends ChessJsProxy {
 
     constructor(fen) {
         super(fen)
-        this.FEN = {
-            empty: "8/8/8/8/8/8/8/8 w - - 0 1",
-            start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
-        }
-        this.status = {
-            pgn: new Pgn(),
-            history: [] // Moves
-        }
+        this.cmPgn = new Pgn()
     }
 
-    /** Override the chess.js API */
-
-    load_pgn(pgn, options) {
-        this.status.pgn = new Pgn(pgn) // parse pgn
-        this.status.history = new Moves(this.status.pgn.history) // fill history with ES6 Moves
-        return super.load_pgn(pgn, options)
+    load_pgn(pgn, options = null) {
+        this.cmPgn.parse(pgn)
     }
-    /** Returns the game in PGN format. Options is an optional parameter which may include max width and/or a newline character settings. */
-    pgn(options) {
-        return this.status.pgn.render()
+
+    history() {
+        return this.cmPgn.history.moves
     }
 
     /*
@@ -63,4 +62,13 @@ export class Chess extends ChessJsProxy {
       - undo()
       - validate_fen(fen)
    */
+
+    // static tools
+    static plyCountToColor(plyCount) {
+        if (plyCount % 2 === 1) {
+            return COLOR.white
+        } else {
+            return COLOR.black
+        }
+    }
 }
