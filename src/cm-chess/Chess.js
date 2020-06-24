@@ -118,7 +118,7 @@ export class Chess {
     }
 
     turn() {
-        return this.cmPgn.history.moves.length + this.startTurn % 2 === 0 ? COLOR.white : COLOR.black
+        return (this.cmPgn.history.moves.length + this.startTurn) % 2 === 0 ? COLOR.white : COLOR.black
     }
 
     /*

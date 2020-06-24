@@ -99,6 +99,8 @@ describe("Chess", function () {
         chess.move("e4")
         Assert.equals(chess.turn(), COLOR.black)
         Assert.equals(chess.history()[0].san, "e4")
+        chess.move("e5")
+        Assert.equals(chess.turn(), COLOR.white)
     })
 
     it('should provide correct turn after loading a FEN', () => {
