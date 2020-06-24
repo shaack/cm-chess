@@ -4,8 +4,9 @@
  * License: MIT, see file 'LICENSE'
  */
 import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-import {ChessJs} from "./ChessJs.js"
+// import {ChessJs} from "./ChessJs.js"
 import {TAGS} from "../../lib/cm-pgn/Header.js"
+import {ChessJs} from "./ChessJs.js"
 
 export const COLOR = {
     white: "w",
@@ -25,10 +26,12 @@ export class Chess {
 
     constructor(fen) {
         this.cmPgn = new Pgn()
+        // this.chessJs = new ChessJs()
+        this.startTurn = 0 // set to 1, if startTurn is black after loading FEN
         if (fen) {
-            this.loadFen(fen)
+            this.load(fen)
         }
-        this.chessJs = new ChessJs()
+
     }
 
     // like game_over() in chess.js
@@ -85,11 +88,17 @@ export class Chess {
         }
     }
 
-    loadFen(fen) {
-        if (this.chessJs.validate_fen(fen)) {
+    load(fen) {
+        const chess = new ChessJs(fen)
+        if (chess) {
             this.cmPgn.header.tags[TAGS.SetUp] = 1
             this.cmPgn.header.tags[TAGS.FEN] = fen
             this.cmPgn.history.clear()
+            if(chess.turn() === "b") {
+                this.startTurn = 1
+            } else {
+                this.startTurn = 0
+            }
         } else {
             console.error("invalid fen", fen)
         }
@@ -106,6 +115,10 @@ export class Chess {
 
     pgn() {
         this.cmPgn.render(pgn) // TODO
+    }
+
+    turn() {
+        return this.cmPgn.history.moves.length + this.startTurn % 2 === 0 ? COLOR.white : COLOR.black
     }
 
     /*
@@ -141,12 +154,14 @@ export class Chess {
    */
 
     // static tools
-    static plyCountToColor(plyCount) {
+    /*
+    static plyCountToTurn(plyCount) {
         if (plyCount % 2 === 1) {
             return COLOR.white
         } else {
             return COLOR.black
         }
     }
+     */
 
 }

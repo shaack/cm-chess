@@ -1,4 +1,4 @@
-import {Chess, FEN} from "../src/cm-chess/Chess.js"
+import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.js"
 import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
 import {TAGS} from "../lib/cm-pgn/Header.js"
 
@@ -81,6 +81,7 @@ describe("Chess", function () {
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
 1-0`
         chess.loadPgn(pgn)
+        Assert.equals(chess.turn(), COLOR.black)
         const firstMove = chess.history()[0]
         Assert.equals(firstMove.san, "Qc5+")
         const secondMove = firstMove.next
@@ -94,8 +95,16 @@ describe("Chess", function () {
 
     it('should add move at the end of the history', () => {
         const chess = new Chess()
+        Assert.equals(chess.turn(), COLOR.white)
         chess.move("e4")
+        Assert.equals(chess.turn(), COLOR.black)
         Assert.equals(chess.history()[0].san, "e4")
+    })
+
+    it('should provide correct turn after loading a FEN', () => {
+        const chess = new Chess()
+        chess.load('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
+        Assert.equals(chess.turn(), COLOR.black)
     })
 
 })
