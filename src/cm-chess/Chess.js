@@ -30,7 +30,6 @@ export class Chess {
         if (fen) {
             this.load(fen)
         }
-
     }
 
     // like game_over() in chess.js
@@ -118,7 +117,14 @@ export class Chess {
     }
 
     pgn() {
-        this.cmPgn.render(pgn) // TODO
+        // TODO create pgn with variants, annotations, nags
+        // for now just render main variant
+        const chess = new ChessJs(this.cmPgn.history.setUpFEN)
+        const moves = this.cmPgn.history.moves
+        for (const move of moves) {
+            chess.move(move)
+        }
+        return chess.pgn()
     }
 
     turn() {
