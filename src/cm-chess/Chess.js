@@ -17,6 +17,10 @@ export const FEN = {
     start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 }
 
+/**
+ * Like chess.js, but handles variations and is written in ES5
+ * Uses chess.js for validation
+ */
 export class Chess {
 
     constructor(fen) {
@@ -29,19 +33,41 @@ export class Chess {
 
     // like game_over() in chess.js
     gameOver() {
-        return this.lastMove() && this.lastMove().gameOver
+        const lastMove = this.lastMove()
+        return lastMove && lastMove.gameOver
     }
 
     fen() {
-        if (this.lastMove()) {
-            return this.lastMove().fen
-        } else {
-            return FEN.start
-        }
+        const lastMove = this.lastMove()
+        return lastMove ? lastMove.fen : FEN.start
     }
 
     header() {
         return this.cmPgn.header.tags
+    }
+
+    inDraw(move = this.lastMove()) {
+        return move && move.inDraw
+    }
+
+    inStalemate(move = this.lastMove()) {
+        return move && move.inStalemate
+    }
+
+    insufficientMaterial(move = this.lastMove()) {
+        return move && move.insufficientMaterial
+    }
+
+    inThreefoldRepetition(move = this.lastMove()) {
+        return move && move.inThreefoldRepetition
+    }
+
+    inCheckmate(move = this.lastMove()) {
+        return move && move.inCheckmate
+    }
+
+    inCheck(move = this.lastMove()) {
+        return move && move.inCheck
     }
 
     history() {
