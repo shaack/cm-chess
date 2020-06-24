@@ -47,27 +47,27 @@ export class Chess {
     }
 
     inDraw(move = this.lastMove()) {
-        return move && move.inDraw
+        return move && move.inDraw === true
     }
 
     inStalemate(move = this.lastMove()) {
-        return move && move.inStalemate
+        return move && move.inStalemate === true
     }
 
     insufficientMaterial(move = this.lastMove()) {
-        return move && move.insufficientMaterial
+        return move && move.insufficientMaterial === true
     }
 
     inThreefoldRepetition(move = this.lastMove()) {
-        return move && move.inThreefoldRepetition
+        return move && move.inThreefoldRepetition === true
     }
 
     inCheckmate(move = this.lastMove()) {
-        return move && move.inCheckmate
+        return move && move.inCheckmate === true
     }
 
     inCheck(move = this.lastMove()) {
-        return move && move.inCheck
+        return move && move.inCheck === true
     }
 
     history() {

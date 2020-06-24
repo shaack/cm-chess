@@ -88,6 +88,8 @@ describe("Chess", function () {
         Assert.equals(chess.lastMove().san, "Bc5#")
         Assert.equals(chess.gameOver(), true)
         Assert.equals(chess.lastMove().inCheckmate, true)
+        Assert.equals(chess.inCheckmate(), true)
+        Assert.equals(chess.inDraw(), false)
     })
 
     it('should add move at the end of the history', () => {
