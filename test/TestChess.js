@@ -5,7 +5,8 @@ import {TAGS} from "../lib/cm-pgn/Header.js"
 describe("Chess", function () {
     it("should create empty Chess", () => {
         const chess = new Chess()
-        Assert.equals(chess.fen(), FEN.start)
+        Assert.equals(chess.history().length, 0)
+        Assert.equals(chess.header().size, 0)
     })
 
     it("should load a simple pgn", function() {
@@ -24,16 +25,16 @@ describe("Chess", function () {
 8.Nxe6 Qe7 9.O-O fxe6 10.Bg6+ Kd8 {Kasparov schüttelt kurz den Kopf}
 11.Bf4 b5 12.a4 Bb7 13.Re1 Nd5 14.Bg3 Kc8 15.axb5 cxb5 16.Qd3 Bc6
 17.Bf5 exf5 18.Rxe7 Bxe7 19.c4 1-0`
-        chess.load_pgn(pgn)
+        chess.loadPgn(pgn)
         Assert.equals(chess.history().length, 37)
         // todo test for Annotation "Kasparov schüttelt kurz den Kopf"
     })
-
+/*
     it("should provide SQUARES", () => {
         const chess = new Chess()
         Assert.equals(chess.SQUARES[1], "b8")
     })
-
+*/
     it("should load a pgn with SetUp", () => {
         const chess = new Chess()
         const pgn = `[Event "?"]
@@ -45,7 +46,7 @@ describe("Chess", function () {
 
 1. Qc1 Qe6 2. Qxc7 
 0-1`
-        chess.load_pgn(pgn)
+        chess.loadPgn(pgn)
         Assert.equals(chess.history()[2].san, "Qxc7")
     })
 
@@ -65,7 +66,7 @@ describe("Chess", function () {
 
 1... Bf8 (1... Qf8? 2. Qxf8+ Bxf8 3. exd4) 2. exd4 Qxd4+ {%Q} 3. Kh1 Bh3 
 0-1`
-        chess.load_pgn(pgn, {}, true)
+        chess.loadPgn(pgn, {}, true)
         Assert.equals(5, chess.cmPgn.history.moves.length)
         Assert.equals("Schaak opheffen", chess.cmPgn.header.tags.get(TAGS.White))
         Assert.equals("app 037-1", chess.cmPgn.header.tags.get(TAGS.Annotator))
@@ -78,11 +79,18 @@ describe("Chess", function () {
 
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
 1-0`
-        chess.load_pgn(pgn)
+        chess.loadPgn(pgn)
         const firstMove = chess.history()[0]
         Assert.equals(firstMove.san, "Qc5+")
-        // TODO const secondMove = move.next()
-        // Assert.equals(secondMove.san, "f4")
+        const secondMove = firstMove.next
+        Assert.equals(secondMove.san, "Kd3")
+    })
+
+    it('should add move at the end', () => {
+        const chess = new Chess()
+        chess.move("e4")
+        console.log(chess.history())
+        Assert.equals(chess.history()[0].san, "e4")
     })
 
 })
