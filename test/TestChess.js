@@ -30,12 +30,7 @@ describe("Chess", function () {
         Assert.equals(chess.history().length, 37)
         // todo test for Annotation "Kasparov schüttelt kurz den Kopf"
     })
-/*
-    it("should provide SQUARES", () => {
-        const chess = new Chess()
-        Assert.equals(chess.SQUARES[1], "b8")
-    })
-*/
+
     it("should load a pgn with SetUp", () => {
         const chess = new Chess()
         const pgn = `[Event "?"]
@@ -107,6 +102,14 @@ describe("Chess", function () {
         const chess = new Chess()
         chess.load('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
         Assert.equals(chess.turn(), COLOR.black)
+    })
+
+    it('invalid move should just return null', () => {
+        const chess = new Chess()
+        chess.load('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
+        Assert.equals(chess.turn(), COLOR.black)
+        const move = chess.move("a1")
+        Assert.equals(move, null)
     })
 
 })

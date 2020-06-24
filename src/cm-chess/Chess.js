@@ -4,7 +4,6 @@
  * License: MIT, see file 'LICENSE'
  */
 import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-// import {ChessJs} from "./ChessJs.js"
 import {TAGS} from "../../lib/cm-pgn/Header.js"
 import {ChessJs} from "./ChessJs.js"
 
@@ -110,7 +109,12 @@ export class Chess {
 
 
     move(move, previousMove = null, sloppy = false) {
-        return this.cmPgn.history.addMove(move, previousMove, sloppy)
+        try {
+            return this.cmPgn.history.addMove(move, previousMove, sloppy)
+        } catch (e) {
+            return null
+        }
+
     }
 
     pgn() {
