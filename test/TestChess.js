@@ -85,12 +85,14 @@ describe("Chess", function () {
         Assert.equals(firstMove.san, "Qc5+")
         const secondMove = firstMove.next
         Assert.equals(secondMove.san, "Kd3")
+        Assert.equals(chess.lastMove().san, "Bc5#")
+        Assert.equals(chess.gameOver(), true)
+        Assert.equals(chess.lastMove().inCheckmate, true)
     })
 
     it('should add move at the end of the history', () => {
         const chess = new Chess()
         chess.move("e4")
-        console.log(chess.history())
         Assert.equals(chess.history()[0].san, "e4")
     })
 

@@ -27,14 +27,25 @@ export class Chess {
         this.chessJs = new ChessJs()
     }
 
-    loadFen(fen) {
-        if (this.chessJs.validate_fen(fen)) {
-            this.cmPgn.header.tags[TAGS.SetUp] = 1
-            this.cmPgn.header.tags[TAGS.FEN] = fen
-            this.cmPgn.history.clear()
+    // like game_over() in chess.js
+    gameOver() {
+        return this.lastMove() && this.lastMove().gameOver
+    }
+
+    fen() {
+        if (this.lastMove()) {
+            return this.lastMove().fen
         } else {
-            console.error("invalid fen", fen)
+            return FEN.start
         }
+    }
+
+    header() {
+        return this.cmPgn.header.tags
+    }
+
+    history() {
+        return this.cmPgn.history.moves
     }
 
     /**
@@ -48,11 +59,13 @@ export class Chess {
         }
     }
 
-    fen() {
-        if (this.lastMove()) {
-            return this.lastMove().fen
+    loadFen(fen) {
+        if (this.chessJs.validate_fen(fen)) {
+            this.cmPgn.header.tags[TAGS.SetUp] = 1
+            this.cmPgn.header.tags[TAGS.FEN] = fen
+            this.cmPgn.history.clear()
         } else {
-            return FEN.start
+            console.error("invalid fen", fen)
         }
     }
 
@@ -60,20 +73,13 @@ export class Chess {
         this.cmPgn = new Pgn(pgn)
     }
 
-    pgn() {
-        this.cmPgn.render(pgn)
-    }
-
-    history() {
-        return this.cmPgn.history.moves
-    }
-
-    header() {
-        return this.cmPgn.header.tags
-    }
 
     move(move, previousMove = null, sloppy = false) {
         return this.cmPgn.history.addMove(move, previousMove, sloppy)
+    }
+
+    pgn() {
+        this.cmPgn.render(pgn) // TODO
     }
 
     /*
