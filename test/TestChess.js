@@ -7,6 +7,7 @@ describe("Chess", function () {
         const chess = new Chess()
         Assert.equals(chess.history().length, 0)
         Assert.equals(chess.header().size, 0)
+        Assert.equals(chess.fen(), FEN.start)
     })
 
     it("should load a simple pgn", function() {
@@ -86,7 +87,7 @@ describe("Chess", function () {
         Assert.equals(secondMove.san, "Kd3")
     })
 
-    it('should add move at the end', () => {
+    it('should add move at the end of the history', () => {
         const chess = new Chess()
         chess.move("e4")
         console.log(chess.history())

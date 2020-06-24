@@ -21,7 +21,7 @@ export class Chess {
 
     constructor(fen) {
         this.cmPgn = new Pgn()
-        if(fen) {
+        if (fen) {
             this.loadFen(fen)
         }
         this.chessJs = new ChessJs()
@@ -36,15 +36,26 @@ export class Chess {
             console.error("invalid fen", fen)
         }
     }
-/*
-    fen() {
+
+    /**
+     * @returns {null|*} the last move of the main variant
+     */
+    lastMove() {
         if (this.cmPgn.history.moves.length > 0) {
-            return this.cmPgn.history.moves[this.cmPgn.history.moves.length - 1].fen
+            return this.cmPgn.history.moves[this.cmPgn.history.moves.length - 1]
         } else {
             return null
         }
     }
-*/
+
+    fen() {
+        if (this.lastMove()) {
+            return this.lastMove().fen
+        } else {
+            return FEN.start
+        }
+    }
+
     loadPgn(pgn, options = null) {
         this.cmPgn = new Pgn(pgn)
     }
