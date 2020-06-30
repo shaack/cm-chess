@@ -117,14 +117,38 @@ export class Chess {
     }
 
     pgn() {
-        // TODO create pgn with variants, annotations, nags
-        // for now just render main variant
+        // TODO create pgn with variants, annotations, nags (for now just render main variant)
         const chess = new ChessJs(this.cmPgn.history.setUpFEN)
         const moves = this.cmPgn.history.moves
         for (const move of moves) {
             chess.move(move)
         }
         return chess.pgn()
+    }
+
+    /**
+     * return the pieces (positions) at a specific move
+     */
+    pieces(type = null, color = null, move = this.lastMove()) {
+        const chessJs = move ? new ChessJs(move.fen) : new ChessJs()
+        let result = []
+        for (let i = 0; i < 64; i++) {
+            const square = chessJs.SQUARES[i]
+            const piece = chessJs.get(square)
+            if (piece !== null) {
+                piece.square = square
+            }
+            if (type === null) {
+                if (color === null && piece !== null) {
+                    result.push(piece)
+                }
+            } else if (color === null && piece !== null && piece.type === type) {
+                result.push(piece)
+            } else if (piece !== null && piece.color === color && piece.type === type) {
+                result.push(piece)
+            }
+        }
+        return result
     }
 
     turn() {
