@@ -155,6 +155,21 @@ export class Chess {
         return (this.cmPgn.history.moves.length + this.startTurn) % 2 === 0 ? COLOR.white : COLOR.black
     }
 
+    /**
+     * undo a move and all moves after it
+     */
+    undo(move = this.lastMove()) {
+        // decouple from previous
+        if(move.previous) {
+            move.previous.next = null
+        }
+        // splice all next moves
+        const index = move.variation.findIndex(element => {
+            return element.ply === move.ply
+        })
+        move.variation = move.variation.splice(index)
+    }
+
     /*
       // the chess.js API
       // https://github.com/jhlywa/chess.js/blob/master/README.md

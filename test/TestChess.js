@@ -129,4 +129,30 @@ describe("Chess", function () {
         Assert.equals(chess.pieces("k").length, 2)
     })
 
+    it.only('should undo lastMove', () => {
+        const chess = new Chess()
+        const pgn = `[SetUp "1"]
+[FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
+
+1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
+1-0`
+        chess.loadPgn(pgn)
+        Assert.equals(chess.history().length, 9)
+        chess.undo()
+        Assert.equals(chess.history().length, 8)
+    })
+
+    it.only('should undo more moves', () => {
+        const chess = new Chess()
+        const pgn = `[SetUp "1"]
+[FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
+
+1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
+1-0`
+        chess.loadPgn(pgn)
+        chess.undo(chess.history()[5])
+        console.log(chess.history());
+        Assert.equals(chess.history().length, 5)
+    })
+
 })
