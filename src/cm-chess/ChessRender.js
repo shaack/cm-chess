@@ -4,7 +4,7 @@ import {TextUtils} from "../../lib/cm-web-modules/utils/TextUtils.js"
 
 export const PIECES = {
     // https://en.wikipedia.org/wiki/Chess_piece_relative_value
-    values: { // TODO put somewhere else as in "Render"
+    values: { // TODO put somewhere else
         R: 5, N: 3, B: 3, Q: 9, K: 4, P: 1
     },
     notation: {
@@ -46,17 +46,13 @@ export class ChessRender {
                     "K": pieces.Kw
                 })
             } else {
-                if(lang === "de") {
-                    return TextUtils.replaceAll(san, {
-                        "R": pieces.Rb,
-                        "N": pieces.Nb,
-                        "B": pieces.Bb,
-                        "Q": pieces.Qb,
-                        "K": pieces.Kb
-                    })
-                } else {
-                    return san;
-                }
+                return TextUtils.replaceAll(san, {
+                    "R": pieces.Rb,
+                    "N": pieces.Nb,
+                    "B": pieces.Bb,
+                    "Q": pieces.Qb,
+                    "K": pieces.Kb
+                })
             }
         } else if(mode === "text") {
             return TextUtils.replaceAll(san, PIECES.notation[lang])
