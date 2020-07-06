@@ -7,5 +7,5 @@ but in ES6 and can handle history variants (tree-structured move history).
 - Uses chess.js for move-validation (Thanks for this nice chess-library!)
 - Can handle history variants
 - Can add Nags, Comments and Annotations
-- used by 7000 users from (chessmail.de)/(chessmail.eu)
+- Used by 7000 users from [chessmail](https://www.chessmail.eu)
 
