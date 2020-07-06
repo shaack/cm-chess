@@ -43,6 +43,18 @@ export class Chess {
         return lastMove ? lastMove.fen : FEN.start
     }
 
+    /**
+     * return the setUp FEN in the header or the default start-FEN
+     * @returns {string}
+     */
+    setUpFen() {
+        if(this.cmPgn.header.tags.get(TAGS.SetUp)) {
+            return this.cmPgn.header.tags.get(TAGS.FEN)
+        } else {
+            return FEN.start
+        }
+    }
+
     header() {
         return this.cmPgn.header.tags
     }
@@ -118,7 +130,7 @@ export class Chess {
 
     pgn() {
         // TODO create pgn with variants, annotations, nags (for now just render main variant)
-        const chess = new ChessJs(this.cmPgn.history.setUpFEN)
+        const chess = new ChessJs(this.setUpFen())
         const moves = this.cmPgn.history.moves
         for (const move of moves) {
             chess.move(move)

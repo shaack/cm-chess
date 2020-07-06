@@ -129,7 +129,7 @@ describe("Chess", function () {
         Assert.equals(chess.pieces("k").length, 2)
     })
 
-    it.only('should undo lastMove', () => {
+    it('should undo lastMove', () => {
         const chess = new Chess()
         const pgn = `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
@@ -142,7 +142,7 @@ describe("Chess", function () {
         Assert.equals(chess.history().length, 8)
     })
 
-    it.only('should undo more moves', () => {
+    it('should undo more moves', () => {
         const chess = new Chess()
         const pgn = `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
