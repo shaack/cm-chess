@@ -17,5 +17,16 @@
     mocha.checkLeaks()
     mocha.run()
 </script>
+<!--
+<script>
+    const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
+    const chess = new Chess()
+    console.log(chess.fen())
+    chess.load(fen)
+    console.log(chess.fen())
+    chess.move("e4")
+    console.log(chess.fen())
+</script>
+-->
 </body>
 </html>

@@ -3,11 +3,31 @@ import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
 import {TAGS} from "../lib/cm-pgn/Header.js"
 
 describe("Chess", function () {
+
     it("should create empty Chess", () => {
         const chess = new Chess()
         Assert.equals(chess.history().length, 0)
         Assert.equals(chess.header().size, 0)
         Assert.equals(chess.fen(), FEN.start)
+    })
+
+    it("should load a game from FEN", function() {
+        const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
+        const chess = new Chess(fen)
+        Assert.equals(chess.cmPgn.header.tags.get("FEN"), fen)
+        Assert.equals(chess.fen(), fen)
+    })
+
+    it("should load a pgn with SetUp and FEN", function() {
+        const pgn = `[SetUp "1"]
+[FEN "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"]
+
+1. e4 (1. d4 {Die Variante} d5) e5 {Ein Kommentar} 2. a3`
+        const chess = new Chess()
+        chess.loadPgn(pgn)
+        Assert.equals(chess.move("Nc6"), null)
+        const result = chess.move("h6")
+        Assert.equals(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
     })
 
     it("should load a simple pgn", function() {
@@ -151,7 +171,7 @@ describe("Chess", function () {
 1-0`
         chess.loadPgn(pgn)
         chess.undo(chess.history()[5])
-        console.log(chess.history());
+        // console.log(chess.history());
         Assert.equals(chess.history().length, 5)
     })
 

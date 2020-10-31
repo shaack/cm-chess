@@ -25,7 +25,6 @@ export class Chess {
 
     constructor(fen) {
         this.cmPgn = new Pgn()
-        // this.chessJs = new ChessJs()
         this.startTurn = 0 // set to 1, if startTurn is black after loading FEN
         if (fen) {
             this.load(fen)
@@ -40,7 +39,13 @@ export class Chess {
 
     fen() {
         const lastMove = this.lastMove()
-        return lastMove ? lastMove.fen : FEN.start
+        if(lastMove) {
+            return lastMove.fen
+        } else if(this.setUpFen()) {
+            return this.setUpFen()
+        } else {
+            return FEN.start
+        }
     }
 
     /**
@@ -101,8 +106,8 @@ export class Chess {
     load(fen) {
         const chess = new ChessJs(fen)
         if (chess) {
-            this.cmPgn.header.tags[TAGS.SetUp] = 1
-            this.cmPgn.header.tags[TAGS.FEN] = fen
+            this.cmPgn.header.tags.set(TAGS.SetUp, "1")
+            this.cmPgn.header.tags.set(TAGS.FEN, fen)
             this.cmPgn.history.clear()
             if(chess.turn() === "b") {
                 this.startTurn = 1
