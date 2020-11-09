@@ -39,9 +39,9 @@ export class Chess {
 
     fen() {
         const lastMove = this.lastMove()
-        if(lastMove) {
+        if (lastMove) {
             return lastMove.fen
-        } else if(this.setUpFen()) {
+        } else if (this.setUpFen()) {
             return this.setUpFen()
         } else {
             return FEN.start
@@ -53,7 +53,7 @@ export class Chess {
      * @returns {string}
      */
     setUpFen() {
-        if(this.cmPgn.header.tags.get(TAGS.SetUp)) {
+        if (this.cmPgn.header.tags.get(TAGS.SetUp)) {
             return this.cmPgn.header.tags.get(TAGS.FEN)
         } else {
             return FEN.start
@@ -109,11 +109,6 @@ export class Chess {
             this.cmPgn.header.tags.set(TAGS.SetUp, "1")
             this.cmPgn.header.tags.set(TAGS.FEN, fen)
             this.cmPgn.history.clear()
-            if(chess.turn() === "b") {
-                this.startTurn = 1
-            } else {
-                this.startTurn = 0
-            }
         } else {
             console.error("invalid fen", fen)
         }
@@ -169,7 +164,18 @@ export class Chess {
     }
 
     turn() {
-        return (this.cmPgn.history.moves.length + this.startTurn) % 2 === 0 ? COLOR.white : COLOR.black
+        if (this.setUpFen()) {
+            const fenParts = this.setUpFen().split(" ")
+            if (fenParts[1] === "w") {
+                return (this.cmPgn.history.moves.length) % 2 === 0 ? COLOR.white : COLOR.black
+            } else if (fenParts[1] === "b") {
+                return (this.cmPgn.history.moves.length) % 2 === 1 ? COLOR.white : COLOR.black
+            } else {
+                console.error("invalid setUpFen", this.setUpFen())
+            }
+        } else {
+            return (this.cmPgn.history.moves.length) % 2 === 0 ? COLOR.white : COLOR.black
+        }
     }
 
     /**
@@ -177,7 +183,7 @@ export class Chess {
      */
     undo(move = this.lastMove()) {
         // decouple from previous
-        if(move.previous) {
+        if (move.previous) {
             move.previous.next = null
         }
         // splice all next moves
