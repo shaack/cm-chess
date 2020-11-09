@@ -164,18 +164,14 @@ export class Chess {
     }
 
     turn() {
+        let factor = 0
         if (this.setUpFen()) {
             const fenParts = this.setUpFen().split(" ")
-            if (fenParts[1] === "w") {
-                return (this.cmPgn.history.moves.length) % 2 === 0 ? COLOR.white : COLOR.black
-            } else if (fenParts[1] === "b") {
-                return (this.cmPgn.history.moves.length) % 2 === 1 ? COLOR.white : COLOR.black
-            } else {
-                console.error("invalid setUpFen", this.setUpFen())
+            if (fenParts[1] === "b") {
+                factor = 1
             }
-        } else {
-            return (this.cmPgn.history.moves.length) % 2 === 0 ? COLOR.white : COLOR.black
         }
+        return (this.cmPgn.history.moves.length) % 2 === factor ? COLOR.white : COLOR.black
     }
 
     /**
