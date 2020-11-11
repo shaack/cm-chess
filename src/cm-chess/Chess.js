@@ -105,16 +105,16 @@ export class Chess {
 
     load(fen) {
         const chess = new ChessJs(fen)
-        if (chess) {
+        if (chess && chess.fen() === fen) {
             this.cmPgn.header.tags.set(TAGS.SetUp, "1")
-            this.cmPgn.header.tags.set(TAGS.FEN, fen)
+            this.cmPgn.header.tags.set(TAGS.FEN, chess.fen())
             this.cmPgn.history.clear()
         } else {
-            console.error("invalid fen", fen)
+            throw Error("Invalid fen " + fen)
         }
     }
 
-    loadPgn(pgn, options = null) {
+    loadPgn(pgn) {
         this.cmPgn = new Pgn(pgn)
     }
 

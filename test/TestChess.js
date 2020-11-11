@@ -175,4 +175,21 @@ describe("Chess", function () {
         Assert.equals(chess.history().length, 5)
     })
 
+    it("should not load incorrect FEN", function() {
+        const fen = "4k3/pppppppp/8/8/8/8/PPPPPP/4K3 w - - 0 1"
+        try {
+            new Chess(fen)
+            Assert.true(false)
+        } catch (e) {
+            // OK
+        }
+        try {
+            const chess = new Chess()
+            chess.load(fen)
+            Assert.true(false)
+        } catch (e) {
+            // OK
+        }
+    })
+
 })
