@@ -110,7 +110,7 @@ export class Chess {
             this.cmPgn.header.tags.set(TAGS.SetUp, "1")
             this.cmPgn.header.tags.set(TAGS.FEN, chess.fen())
             this.cmPgn.history.clear()
-            this.cmPgn.history.setUp = fen
+            this.cmPgn.history.setUpFen = fen
         } else {
             throw Error("Invalid fen " + fen)
         }
