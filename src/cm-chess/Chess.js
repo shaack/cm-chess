@@ -24,10 +24,10 @@ export const FEN = {
 export class Chess {
 
     constructor(fen) {
-        this.cmPgn = new Pgn()
-        this.startTurn = 0 // set to 1, if startTurn is black after loading FEN
         if (fen) {
             this.load(fen)
+        } else {
+            this.cmPgn = new Pgn()
         }
     }
 
@@ -106,9 +106,11 @@ export class Chess {
     load(fen) {
         const chess = new ChessJs(fen)
         if (chess && chess.fen() === fen) {
+            this.cmPgn = new Pgn()
             this.cmPgn.header.tags.set(TAGS.SetUp, "1")
             this.cmPgn.header.tags.set(TAGS.FEN, chess.fen())
             this.cmPgn.history.clear()
+            this.cmPgn.history.setUp = fen
         } else {
             throw Error("Invalid fen " + fen)
         }
@@ -117,7 +119,6 @@ export class Chess {
     loadPgn(pgn) {
         this.cmPgn = new Pgn(pgn)
     }
-
 
     move(move, previousMove = null, sloppy = false) {
         try {

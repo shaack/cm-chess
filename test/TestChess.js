@@ -192,4 +192,13 @@ describe("Chess", function () {
         }
     })
 
+    it("should load different PGNs and then work correctly", function() {
+        const fen = "ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"
+        const chess = new Chess(fen)
+        Assert.true(chess.move("e4") === null)
+        Assert.true(chess.move("Ke2") !== null)
+        chess.load(FEN.start)
+        Assert.true(chess.move("e4"))
+    })
+
 })
