@@ -7,6 +7,10 @@ import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 import {TAGS} from "../../lib/cm-pgn/Header.js"
 import {ChessJs} from "./ChessJs.js"
 
+export const PIECES_VALUES = {
+    R: 5, N: 3, B: 3, Q: 9, K: 4, P: 1
+}
+
 export const COLOR = {
     white: "w",
     black: "b"

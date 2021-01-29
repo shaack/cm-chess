@@ -1,12 +1,10 @@
 import {COLOR} from "./Chess.js"
 import {TextUtils} from "../../lib/cm-web-modules/utils/TextUtils.js"
-
+import {PIECES_VALUES} from "./Chess.js"
 
 export const PIECES = {
     // https://en.wikipedia.org/wiki/Chess_piece_relative_value
-    values: { // TODO put somewhere else
-        R: 5, N: 3, B: 3, Q: 9, K: 4, P: 1
-    },
+    values: PIECES_VALUES,
     notation: {
         de: {
             R: "T", N: "S", B: "L", Q: "D", K: "K", P: ""
