@@ -1,6 +1,6 @@
-import {COLOR} from "./Chess.js"
+import {COLOR} from "./Chess.mjs"
 import {TextUtils} from "../../lib/cm-web-modules/utils/TextUtils.js"
-import {PIECES_VALUES} from "./Chess.js"
+import {PIECES_VALUES} from "./Chess.mjs"
 
 export const PIECES = {
     // https://en.wikipedia.org/wiki/Chess_piece_relative_value

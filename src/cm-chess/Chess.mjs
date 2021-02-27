@@ -3,9 +3,9 @@
  * Repository: https://github.com/shaack/cm-chess
  * License: MIT, see file 'LICENSE'
  */
-import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-import {TAGS} from "../../lib/cm-pgn/Header.js"
-import {ChessJs} from "./ChessJs.js"
+import {Pgn} from "../../lib/cm-pgn/Pgn.mjs"
+import {TAGS} from "../../lib/cm-pgn/Header.mjs"
+import {ChessJs} from "./ChessJs.mjs"
 
 export const PIECES_VALUES = {
     R: 5, N: 3, B: 3, Q: 9, K: 4, P: 1

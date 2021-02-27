@@ -1,11 +1,11 @@
 # cm-chess 
 
 It is like [chess.js](https://github.com/jhlywa/chess.js), 
-but in ES6 and can handle history variants (tree-structured move history).
+but is an ES6 module and can handle history variants (tree-structured move history).
 
-- Has the same [API as chess.js](https://github.com/jhlywa/chess.js/blob/master/README.md).
-- Uses chess.js for move-validation (Thanks for this nice chess-library!)
-- Can handle history variants
-- Can add Nags, Comments and Annotations
-- Used by 7000 users from [chessmail](https://www.chessmail.eu)
+- It has the same [API as chess.js](https://github.com/jhlywa/chess.js/blob/master/README.md).
+- It uses chess.js for move-validation (Thanks for this nice chess-library!)
+- It can handle history variants
+- It can add Nags, Comments and Annotations
+- It is used by the 7000 users from [chessmail](https://www.chessmail.eu) (it works)
 

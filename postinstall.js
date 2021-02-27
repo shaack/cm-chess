@@ -8,3 +8,4 @@ const manager = new LibraryManager(__dirname)
 
 manager.addProject("cm-web-modules")
 manager.addProject("cm-pgn")
+manager.addProject("chess.mjs")

@@ -1,6 +1,6 @@
-import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.js"
+import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.mjs"
 import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
-import {TAGS} from "../lib/cm-pgn/Header.js"
+import {TAGS} from "../lib/cm-pgn/Header.mjs"
 
 describe("Chess", function () {
 
