@@ -1,5 +1,5 @@
 
-import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
+import {Assert} from "../lib/cm-web-modules/assert/Assert.mjs"
 import {ChessRender, PIECES} from "../src/cm-chess/ChessRender.mjs"
 import {COLOR} from "../src/cm-chess/Chess.mjs"
 

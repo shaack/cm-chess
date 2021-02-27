@@ -1,5 +1,5 @@
 import {COLOR} from "./Chess.mjs"
-import {TextUtils} from "../../lib/cm-web-modules/utils/TextUtils.js"
+import {TextUtils} from "../../lib/cm-web-modules/utils/TextUtils.mjs"
 import {PIECES_VALUES} from "./Chess.mjs"
 
 export const PIECES = {
