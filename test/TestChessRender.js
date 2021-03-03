@@ -1,7 +1,7 @@
 
-import {Assert} from "../lib/cm-web-modules/assert/Assert.mjs"
-import {ChessRender, PIECES} from "../src/cm-chess/ChessRender.mjs"
-import {COLOR} from "../src/cm-chess/Chess.mjs"
+import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
+import {ChessRender, PIECES} from "../src/cm-chess/ChessRender.js"
+import {COLOR} from "../src/cm-chess/Chess.js"
 
 describe("ChessRender", function () {
 
