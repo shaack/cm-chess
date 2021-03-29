@@ -2,6 +2,8 @@
  * Author and copyright: Stefan Haack (https://shaack.com)
  * Repository: https://github.com/shaack/cm-chess
  * License: MIT, see file 'LICENSE'
+ *
+ * @deprecated
  */
 
 const openings = [
@@ -400,6 +402,7 @@ const openings = [
 ];
 
 export function detect(moves) {
+    console.warn("Openings is deprecated")
     let i;
     for (i in openings) {
         const opening = openings[i];

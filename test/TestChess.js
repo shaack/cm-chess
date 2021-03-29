@@ -1,21 +1,21 @@
 import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.js"
-import {Assert} from "../lib/cm-web-modules/assert/Assert.js"
 import {TAGS} from "../lib/cm-pgn/Header.js"
+import {describe, it, assert} from "../node_modules/utiny/src/utiny.js";
 
 describe("Chess", function () {
 
     it("should create empty Chess", () => {
         const chess = new Chess()
-        Assert.equals(chess.history().length, 0)
-        Assert.equals(chess.header().size, 0)
-        Assert.equals(chess.fen(), FEN.start)
+        assert.equals(chess.history().length, 0)
+        assert.equals(chess.header().size, 0)
+        assert.equals(chess.fen(), FEN.start)
     })
 
     it("should load a game from FEN", function() {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
         const chess = new Chess(fen)
-        Assert.equals(chess.pgn.header.tags.get("FEN"), fen)
-        Assert.equals(chess.fen(), fen)
+        assert.equals(chess.pgn.header.tags.get("FEN"), fen)
+        assert.equals(chess.fen(), fen)
     })
 
     it("should load a pgn with SetUp and FEN", function() {
@@ -25,9 +25,9 @@ describe("Chess", function () {
 1. e4 (1. d4 {Die Variante} d5) e5 {Ein Kommentar} 2. a3`
         const chess = new Chess()
         chess.loadPgn(pgn)
-        Assert.equals(chess.move("Nc6"), null)
+        assert.equals(chess.move("Nc6"), null)
         const result = chess.move("h6")
-        Assert.equals(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
+        assert.equals(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
     })
 
     it("should load a simple pgn", function() {
@@ -47,7 +47,7 @@ describe("Chess", function () {
 11.Bf4 b5 12.a4 Bb7 13.Re1 Nd5 14.Bg3 Kc8 15.axb5 cxb5 16.Qd3 Bc6
 17.Bf5 exf5 18.Rxe7 Bxe7 19.c4 1-0`
         chess.loadPgn(pgn)
-        Assert.equals(chess.history().length, 37)
+        assert.equals(chess.history().length, 37)
         // todo test for Annotation "Kasparov schüttelt kurz den Kopf"
     })
 
@@ -63,7 +63,7 @@ describe("Chess", function () {
 1. Qc1 Qe6 2. Qxc7 
 0-1`
         chess.loadPgn(pgn)
-        Assert.equals(chess.history()[2].san, "Qxc7")
+        assert.equals(chess.history()[2].san, "Qxc7")
     })
 
     it('should parse stappenmethode weekly.pgn', () => {
@@ -83,9 +83,9 @@ describe("Chess", function () {
 1... Bf8 (1... Qf8? 2. Qxf8+ Bxf8 3. exd4) 2. exd4 Qxd4+ {%Q} 3. Kh1 Bh3 
 0-1`
         chess.loadPgn(pgn, {}, true)
-        Assert.equals(5, chess.pgn.history.moves.length)
-        Assert.equals("Schaak opheffen", chess.pgn.header.tags.get(TAGS.White))
-        Assert.equals("app 037-1", chess.pgn.header.tags.get(TAGS.Annotator))
+        assert.equals(5, chess.pgn.history.moves.length)
+        assert.equals("Schaak opheffen", chess.pgn.header.tags.get(TAGS.White))
+        assert.equals("app 037-1", chess.pgn.header.tags.get(TAGS.Annotator))
     })
 
     it('should allow traverse through moves', () => {
@@ -96,18 +96,18 @@ describe("Chess", function () {
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
 1-0`
         chess.loadPgn(pgn)
-        Assert.equals(chess.turn(), COLOR.black)
+        assert.equals(chess.turn(), COLOR.black)
         const firstMove = chess.history()[0]
-        Assert.equals(firstMove.san, "Qc5+")
+        assert.equals(firstMove.san, "Qc5+")
         const secondMove = firstMove.next
-        Assert.equals(secondMove.san, "Kd3")
-        Assert.equals(chess.lastMove().san, "Bc5#")
-        Assert.equals(chess.gameOver(), true)
-        Assert.equals(chess.lastMove().inCheckmate, true)
-        Assert.equals(chess.inCheckmate(), true)
-        Assert.equals(chess.inDraw(), false)
+        assert.equals(secondMove.san, "Kd3")
+        assert.equals(chess.lastMove().san, "Bc5#")
+        assert.equals(chess.gameOver(), true)
+        assert.equals(chess.lastMove().inCheckmate, true)
+        assert.equals(chess.inCheckmate(), true)
+        assert.equals(chess.inDraw(), false)
         // TODO result, 1-0 is missing
-        Assert.equals(chess.renderPgn(), `[SetUp "1"]
+        assert.equals(chess.renderPgn(), `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
 
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 5. Bc5#`)
@@ -115,38 +115,38 @@ describe("Chess", function () {
 
     it('should add move at the end of the history', () => {
         const chess = new Chess()
-        Assert.equals(chess.turn(), COLOR.white)
+        assert.equals(chess.turn(), COLOR.white)
         chess.move("e4")
-        Assert.equals(chess.turn(), COLOR.black)
-        Assert.equals(chess.history()[0].san, "e4")
+        assert.equals(chess.turn(), COLOR.black)
+        assert.equals(chess.history()[0].san, "e4")
         chess.move("e5")
-        Assert.equals(chess.turn(), COLOR.white)
+        assert.equals(chess.turn(), COLOR.white)
     })
 
     it('should provide correct turn after loading a FEN', () => {
         const chess = new Chess()
         chess.load('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
-        Assert.equals(chess.turn(), COLOR.black)
+        assert.equals(chess.turn(), COLOR.black)
     })
 
     it('invalid move should just return null', () => {
         const chess = new Chess()
         chess.load('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
-        Assert.equals(chess.turn(), COLOR.black)
+        assert.equals(chess.turn(), COLOR.black)
         const move = chess.move("a1")
-        Assert.equals(move, null)
+        assert.equals(move, null)
     })
 
     it('should return pieces', () => {
         const chess = new Chess()
-        Assert.equals(chess.pieces().length, 32)
+        assert.equals(chess.pieces().length, 32)
         const pgn = `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
 
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
 1-0`
         chess.loadPgn(pgn)
-        Assert.equals(chess.pieces("k").length, 2)
+        assert.equals(chess.pieces("k").length, 2)
     })
 
     it('should undo lastMove', () => {
@@ -157,9 +157,9 @@ describe("Chess", function () {
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
 1-0`
         chess.loadPgn(pgn)
-        Assert.equals(chess.history().length, 9)
+        assert.equals(chess.history().length, 9)
         chess.undo()
-        Assert.equals(chess.history().length, 8)
+        assert.equals(chess.history().length, 8)
     })
 
     it('should undo more moves', () => {
@@ -172,21 +172,21 @@ describe("Chess", function () {
         chess.loadPgn(pgn)
         chess.undo(chess.history()[5])
         // console.log(chess.history());
-        Assert.equals(chess.history().length, 5)
+        assert.equals(chess.history().length, 5)
     })
 
     it("should not load incorrect FEN", function() {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPP/4K3 w - - 0 1"
         try {
             new Chess(fen)
-            Assert.true(false)
+            assert.true(false)
         } catch (e) {
             // OK
         }
         try {
             const chess = new Chess()
             chess.load(fen)
-            Assert.true(false)
+            assert.true(false)
         } catch (e) {
             // OK
         }
@@ -195,10 +195,10 @@ describe("Chess", function () {
     it("should load different PGNs and then work correctly", function() {
         const fen = "ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"
         const chess = new Chess(fen)
-        Assert.true(chess.move("e4") === null)
-        Assert.true(chess.move("Ke2") !== null)
+        assert.true(chess.move("e4") === null)
+        assert.true(chess.move("Ke2") !== null)
         chess.load(FEN.start)
-        Assert.true(chess.move("e4"))
+        assert.true(chess.move("e4"))
     })
 
 })

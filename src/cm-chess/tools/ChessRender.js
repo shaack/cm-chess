@@ -1,6 +1,13 @@
-import {COLOR} from "./Chess.js"
-import {TextUtils} from "../../lib/cm-web-modules/utils/TextUtils.js"
-import {PIECES_VALUES} from "./Chess.js"
+/**
+ * Author and copyright: Stefan Haack (https://shaack.com)
+ * Repository: https://github.com/shaack/cm-chess
+ * License: MIT, see file 'LICENSE'
+ *
+ * @deprecated
+ */
+
+import {COLOR} from "../Chess.js"
+import {PIECES_VALUES} from "../Chess.js"
 
 export const PIECES = {
     // https://en.wikipedia.org/wiki/Chess_piece_relative_value
@@ -34,9 +41,10 @@ export const PIECES = {
 
 export class ChessRender {
     static san(san, color = COLOR.white, lang = "en", mode = "text", pieces = PIECES.figures.utf8) {
+        console.warn("ChessRender is deprecated")
         if(mode === "figures") {
             if (color === COLOR.white) {
-                return TextUtils.replaceAll(san, {
+                return this.replaceAll(san, {
                     "R": pieces.Rw,
                     "N": pieces.Nw,
                     "B": pieces.Bw,
@@ -44,7 +52,7 @@ export class ChessRender {
                     "K": pieces.Kw
                 })
             } else {
-                return TextUtils.replaceAll(san, {
+                return this.replaceAll(san, {
                     "R": pieces.Rb,
                     "N": pieces.Nb,
                     "B": pieces.Bb,
@@ -53,9 +61,18 @@ export class ChessRender {
                 })
             }
         } else if(mode === "text") {
-            return TextUtils.replaceAll(san, PIECES.notation[lang])
+            return this.replaceAll(san, PIECES.notation[lang])
         } else {
             console.error("mode must be 'text' or 'figures'")
         }
+    }
+    static replaceAll(str, replacementsObj, ignoreCase = false) {
+        let retStr = str
+        const flags = ignoreCase ? "gi" : "g"
+        for (let needle in replacementsObj) {
+            // noinspection JSUnfilteredForInLoop
+            retStr = retStr.replace(new RegExp(needle, flags), replacementsObj[needle])
+        }
+        return retStr
     }
 }

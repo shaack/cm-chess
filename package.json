@@ -25,10 +25,9 @@
   "homepage": "https://github.com/shaack/cm-chess#readme",
   "dependencies": {
     "chess.mjs": "^1.1.1",
-    "cm-pgn": "^1.7.5",
-    "cm-web-modules": "^1.6.7"
+    "cm-pgn": "^1.7.5"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "utiny": "^2.0.3"
   }
 }
