@@ -14,7 +14,7 @@ describe("Chess", function () {
     it("should load a game from FEN", function() {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
         const chess = new Chess(fen)
-        Assert.equals(chess.cmPgn.header.tags.get("FEN"), fen)
+        Assert.equals(chess.pgn.header.tags.get("FEN"), fen)
         Assert.equals(chess.fen(), fen)
     })
 
@@ -83,9 +83,9 @@ describe("Chess", function () {
 1... Bf8 (1... Qf8? 2. Qxf8+ Bxf8 3. exd4) 2. exd4 Qxd4+ {%Q} 3. Kh1 Bh3 
 0-1`
         chess.loadPgn(pgn, {}, true)
-        Assert.equals(5, chess.cmPgn.history.moves.length)
-        Assert.equals("Schaak opheffen", chess.cmPgn.header.tags.get(TAGS.White))
-        Assert.equals("app 037-1", chess.cmPgn.header.tags.get(TAGS.Annotator))
+        Assert.equals(5, chess.pgn.history.moves.length)
+        Assert.equals("Schaak opheffen", chess.pgn.header.tags.get(TAGS.White))
+        Assert.equals("app 037-1", chess.pgn.header.tags.get(TAGS.Annotator))
     })
 
     it('should allow traverse through moves', () => {
@@ -107,7 +107,7 @@ describe("Chess", function () {
         Assert.equals(chess.inCheckmate(), true)
         Assert.equals(chess.inDraw(), false)
         // TODO result, 1-0 is missing
-        Assert.equals(chess.pgn(), `[SetUp "1"]
+        Assert.equals(chess.renderPgn(), `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
 
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 5. Bc5#`)

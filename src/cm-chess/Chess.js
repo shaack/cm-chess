@@ -5,7 +5,7 @@
  */
 import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 import {TAGS} from "../../lib/cm-pgn/Header.js"
-import {ChessJs} from "./ChessJs.js"
+import {Chess as ChessJs} from "../../lib/chess.mjs/Chess.js"
 
 export const PIECES_VALUES = {
     R: 5, N: 3, B: 3, Q: 9, K: 4, P: 1
@@ -31,7 +31,7 @@ export class Chess {
         if (fen) {
             this.load(fen)
         } else {
-            this.cmPgn = new Pgn()
+            this.pgn = new Pgn()
         }
     }
 
@@ -57,15 +57,15 @@ export class Chess {
      * @returns {string}
      */
     setUpFen() {
-        if (this.cmPgn.header.tags.get(TAGS.SetUp)) {
-            return this.cmPgn.header.tags.get(TAGS.FEN)
+        if (this.pgn.header.tags.get(TAGS.SetUp)) {
+            return this.pgn.header.tags.get(TAGS.FEN)
         } else {
             return FEN.start
         }
     }
 
     header() {
-        return this.cmPgn.header.tags
+        return this.pgn.header.tags
     }
 
     inDraw(move = this.lastMove()) {
@@ -93,15 +93,15 @@ export class Chess {
     }
 
     history() {
-        return this.cmPgn.history.moves
+        return this.pgn.history.moves
     }
 
     /**
      * @returns {null|*} the last move of the main variant
      */
     lastMove() {
-        if (this.cmPgn.history.moves.length > 0) {
-            return this.cmPgn.history.moves[this.cmPgn.history.moves.length - 1]
+        if (this.pgn.history.moves.length > 0) {
+            return this.pgn.history.moves[this.pgn.history.moves.length - 1]
         } else {
             return null
         }
@@ -110,33 +110,33 @@ export class Chess {
     load(fen) {
         const chess = new ChessJs(fen)
         if (chess && chess.fen() === fen) {
-            this.cmPgn = new Pgn()
-            this.cmPgn.header.tags.set(TAGS.SetUp, "1")
-            this.cmPgn.header.tags.set(TAGS.FEN, chess.fen())
-            this.cmPgn.history.clear()
-            this.cmPgn.history.setUpFen = fen
+            this.pgn = new Pgn()
+            this.pgn.header.tags.set(TAGS.SetUp, "1")
+            this.pgn.header.tags.set(TAGS.FEN, chess.fen())
+            this.pgn.history.clear()
+            this.pgn.history.setUpFen = fen
         } else {
             throw Error("Invalid fen " + fen)
         }
     }
 
     loadPgn(pgn) {
-        this.cmPgn = new Pgn(pgn)
+        this.pgn = new Pgn(pgn)
     }
 
     move(move, previousMove = null, sloppy = false) {
         try {
-            return this.cmPgn.history.addMove(move, previousMove, sloppy)
+            return this.pgn.history.addMove(move, previousMove, sloppy)
         } catch (e) {
             return null
         }
 
     }
 
-    pgn() {
+    renderPgn() {
         // TODO create pgn with variants, annotations, nags (for now just render main variant)
         const chess = new ChessJs(this.setUpFen())
-        const moves = this.cmPgn.history.moves
+        const moves = this.pgn.history.moves
         for (const move of moves) {
             chess.move(move)
         }
@@ -176,7 +176,7 @@ export class Chess {
                 factor = 1
             }
         }
-        return (this.cmPgn.history.moves.length) % 2 === factor ? COLOR.white : COLOR.black
+        return (this.pgn.history.moves.length) % 2 === factor ? COLOR.white : COLOR.black
     }
 
     /**
@@ -225,16 +225,5 @@ export class Chess {
       - undo()
       - validate_fen(fen)
    */
-
-    // static tools
-    /*
-    static plyCountToTurn(plyCount) {
-        if (plyCount % 2 === 1) {
-            return COLOR.white
-        } else {
-            return COLOR.black
-        }
-    }
-     */
 
 }
