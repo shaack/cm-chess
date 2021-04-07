@@ -5,7 +5,7 @@ but is an ES6 module and can handle history variants (tree-structured move histo
 
 ## Install
 
-
+`npm install cm-chess`
 
 ## Features
 
