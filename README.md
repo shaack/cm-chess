@@ -3,6 +3,10 @@
 It is like [chess.js](https://github.com/jhlywa/chess.js), 
 but is an ES6 module and can handle history variants (tree-structured move history).
 
+## Install
+
+
+
 ## Features
 
 - It has a similar API to chess.js 

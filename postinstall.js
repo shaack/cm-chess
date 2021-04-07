@@ -3,8 +3,8 @@
  * License: MIT, see file 'LICENSE'
  */
 
-const Modrator = require("./node_modules/modrator/src/Modrator.js")
+const Modrator = require("modrator")
 const modrator = new Modrator()
 
-modrator.addProject("cm-pgn")
-modrator.addProject("chess.mjs")
+modrator.addToLibrary("cm-pgn")
+modrator.addToLibrary("chess.mjs")
