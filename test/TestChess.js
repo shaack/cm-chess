@@ -2,6 +2,8 @@ import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.js"
 import {TAGS} from "../lib/cm-pgn/Header.js"
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js";
 
+// TODO create a test, which demonstrates all features, including variants
+
 describe("Chess", function () {
 
     it("should create empty Chess", () => {
@@ -30,7 +32,7 @@ describe("Chess", function () {
         assert.equals(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
     })
 
-    it("should load a simple pgn", function() {
+    it("should load a pgn", function() {
         const chess = new Chess()
         const pgn = `[Event "IBM Kasparov vs. Deep Blue Rematch"]
 [Site "New York, NY USA"]
@@ -48,7 +50,12 @@ describe("Chess", function () {
 17.Bf5 exf5 18.Rxe7 Bxe7 19.c4 1-0`
         chess.loadPgn(pgn)
         assert.equals(chess.history().length, 37)
-        // todo test for Annotation "Kasparov schüttelt kurz den Kopf"
+        assert.equals(chess.header().get(TAGS.White), "Deep Blue")
+        const firstMove = chess.history()[0]
+        assert.equals(firstMove.color, "w")
+        assert.equals(firstMove.san, "e4")
+        assert.equals(firstMove.fen, "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1")
+        assert.equals(chess.history()[19].commentAfter, "Kasparov schüttelt kurz den Kopf")
     })
 
     it("should load a pgn with SetUp", () => {

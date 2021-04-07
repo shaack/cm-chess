@@ -15,3 +15,12 @@ PGN header values, Nags and Comments.
 - It can add Nags, Comments and Annotations
 - It is used by the 7,000 users from [chessmail](https://www.chessmail.eu) (it works)
 
+## Examples
+
+See the unit tests for usage examples
+https://github.com/shaack/cm-chess/blob/master/test/TestChess.js
+
+## Test
+
+[Run the unit tests](https://shaack.com/projekte/cm-chess/test/)
+
