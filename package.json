@@ -26,7 +26,7 @@
   "dependencies": {
     "chess.mjs": "^1.1.1",
     "cm-pgn": "^1.7.5",
-    "cm-web-modules": "^1.7.3"
+    "modrator": "^1.1.6"
   },
   "devDependencies": {
     "teevi": "^2.1.4"
