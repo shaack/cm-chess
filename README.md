@@ -15,24 +15,22 @@ PGN header values, Nags and Comments.
 - It can add Nags, Comments and Annotations
 - It is used by the 7,000 users from [chessmail](https://www.chessmail.eu) (it works)
 
+## API
+
+For documentation, see the jsdoc annotations in [Chess.js](https://github.com/shaack/cm-chess/blob/master/src/cm-chess/Chess.js).
+
+cm-chess uses [cm-pgn](https://github.com/shaack/cm-pgn) for the
+header and history, therefore you have also the full API of **cm-pgn**.
+
+If I have some time, I will write a better documentation here in this README. :) 
+
 ## Examples
 
 See the unit tests for usage examples
 https://github.com/shaack/cm-chess/blob/master/test/TestChess.js
 
-## API
-
-### constructor(fen = FEN.start)
-
-Creates a new chess class, takes a FEN as parameter.
-
-### fen()
-
-Returns the FEN of the last move, or the setUpFen(), if no move was made.
-
-### setUpFen()
-
-
+And also the unit tests of cm-pgn
+https://github.com/shaack/cm-pgn/tree/master/test
 
 ## Test
 

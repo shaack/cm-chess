@@ -258,36 +258,4 @@ export class Chess {
         move.variation = move.variation.splice(index)
     }
 
-    /*
-      // the chess.js API
-      // https://github.com/jhlywa/chess.js/blob/master/README.md
-
-      - ascii()
-      - board()
-      - clear()
-      - fen()
-      - game_over()
-      - get(square)
-      - history(options)
-      - in_check()
-      - in_checkmate()
-      - in_draw()
-      - in_stalemate()
-      - in_threefold_repetition()
-      - header()
-      - insufficient_material()
-      - load(fen)
-      - load_pgn(pgn, options)
-      - move(move, options)
-        - flags: NORMAL= 'n', CAPTURE= 'c', BIG_PAWN= 'b', EP_CAPTURE= 'e', PROMOTION= 'p', KSIDE_CASTLE= 'k', QSIDE_CASTLE= 'q'
-      - moves(options)
-      - pgn(options)
-      - put(piece, square)
-      - remove(square)
-      - reset()
-      - turn()
-      - undo()
-      - validate_fen(fen)
-   */
-
 }
