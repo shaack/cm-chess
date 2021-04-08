@@ -28,7 +28,7 @@ export const FEN = {
 
 /**
  * Like chess.js, but handles variations and is written in ES5
- * Uses chess.js for validation
+ * Uses chess.js for validation and cm-pgn for history and PGN header
  */
 export class Chess {
 
