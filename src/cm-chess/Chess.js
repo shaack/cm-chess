@@ -177,7 +177,7 @@ export class Chess {
      * @param sloppy to allow sloppy SAN
      * @returns {{}|undefined}
      */
-    move(move, previousMove = undefined, sloppy = false) {
+    move(move, previousMove = undefined, sloppy = true) {
         try {
             return this.pgn.history.addMove(move, previousMove, sloppy)
         } catch (e) {
