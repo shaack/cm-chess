@@ -27,7 +27,7 @@ describe("Chess", function () {
 1. e4 (1. d4 {Die Variante} d5) e5 {Ein Kommentar} 2. a3`
         const chess = new Chess()
         chess.loadPgn(pgn)
-        assert.equals(chess.move("Nc6"), null)
+        assert.equals(chess.move("Nc6"), undefined)
         const result = chess.move("h6")
         assert.equals(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
     })
@@ -136,12 +136,12 @@ describe("Chess", function () {
         assert.equals(chess.turn(), COLOR.black)
     })
 
-    it('invalid move should just return null', () => {
+    it('invalid move should return `undefined`', () => {
         const chess = new Chess()
         chess.load('rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1')
         assert.equals(chess.turn(), COLOR.black)
         const move = chess.move("a1")
-        assert.equals(move, null)
+        assert.equals(move, undefined)
     })
 
     it('should return pieces', () => {
@@ -202,8 +202,8 @@ describe("Chess", function () {
     it("should load different PGNs and then work correctly", function() {
         const fen = "ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"
         const chess = new Chess(fen)
-        assert.true(chess.move("e4") === null)
-        assert.true(chess.move("Ke2") !== null)
+        assert.true(chess.move("e4") === undefined)
+        assert.true(chess.move("Ke2") !== undefined)
         chess.load(FEN.start)
         assert.true(chess.move("e4"))
     })

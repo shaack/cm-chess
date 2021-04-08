@@ -7,8 +7,13 @@ import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 import {TAGS} from "../../lib/cm-pgn/Header.js"
 import {Chess as ChessJs} from "../../lib/chess.mjs/Chess.js"
 
-export const PIECES_VALUES = {
-    R: 5, N: 3, B: 3, Q: 9, K: 4, P: 1
+export const PIECES = {
+    pawn: {type: "p", value: 1},
+    knight: {type: "n", value: 3},
+    bishop: {type: "b", value: 3},
+    rook: {type: "r", value: 5},
+    queen: {type: "q", value: 9},
+    king: {type: "k", value: Infinity}
 }
 
 export const COLOR = {
@@ -27,20 +32,13 @@ export const FEN = {
  */
 export class Chess {
 
-    constructor(fen) {
-        if (fen) {
-            this.load(fen)
-        } else {
-            this.pgn = new Pgn()
-        }
+    constructor(fen = FEN.start) {
+        this.load(fen)
     }
 
-    // like game_over() in chess.js
-    gameOver() {
-        const lastMove = this.lastMove()
-        return lastMove && lastMove.gameOver
-    }
-
+    /**
+     * @returns {string} the FEN of the last move, or the setUpFen(), if no move was made.
+     */
     fen() {
         const lastMove = this.lastMove()
         if (lastMove) {
@@ -53,8 +51,7 @@ export class Chess {
     }
 
     /**
-     * return the setUp FEN in the header or the default start-FEN
-     * @returns {string}
+     * @returns {string} the setUp FEN in the header or the default start-FEN
      */
     setUpFen() {
         if (this.pgn.header.tags.get(TAGS.SetUp)) {
@@ -64,75 +61,134 @@ export class Chess {
         }
     }
 
+    /**
+     * @returns {Map<string, string>} the header tags of the PGN.
+     */
     header() {
         return this.pgn.header.tags
     }
 
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is over at that move
+     */
+    gameOver(move = this.lastMove()) {
+        return move && move.gameOver
+    }
+
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is in draw at that move
+     */
     inDraw(move = this.lastMove()) {
         return move && move.inDraw === true
     }
 
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is in statemate at that move
+     */
     inStalemate(move = this.lastMove()) {
         return move && move.inStalemate === true
     }
 
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is in draw, because of unsufficiant material at that move
+     */
     insufficientMaterial(move = this.lastMove()) {
         return move && move.insufficientMaterial === true
     }
 
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is in draw, because of threefold repetition at that move
+     */
     inThreefoldRepetition(move = this.lastMove()) {
         return move && move.inThreefoldRepetition === true
     }
 
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is in checkmate at that move
+     */
     inCheckmate(move = this.lastMove()) {
         return move && move.inCheckmate === true
     }
 
+    /**
+     * @param move optional
+     * @returns {boolean} true, if the game is in check at that move
+     */
     inCheck(move = this.lastMove()) {
         return move && move.inCheck === true
     }
 
+    /**
+     * cm-chess uses cm-pgn for the history and header. See https://github.com/shaack/cm-pgn
+     * @returns {[]} the moves of the game history
+     */
     history() {
         return this.pgn.history.moves
     }
 
     /**
-     * @returns {null|*} the last move of the main variant
+     * @returns {undefined|move} the last move of the main variant or `undefined`, if no move was made
      */
     lastMove() {
         if (this.pgn.history.moves.length > 0) {
             return this.pgn.history.moves[this.pgn.history.moves.length - 1]
         } else {
-            return null
+            return undefined
         }
     }
 
+    /**
+     * Load a FEN
+     * @param fen
+     */
     load(fen) {
         const chess = new ChessJs(fen)
         if (chess && chess.fen() === fen) {
             this.pgn = new Pgn()
-            this.pgn.header.tags.set(TAGS.SetUp, "1")
-            this.pgn.header.tags.set(TAGS.FEN, chess.fen())
-            this.pgn.history.clear()
-            this.pgn.history.setUpFen = fen
+            if (fen !== FEN.start) {
+                this.pgn.header.tags.set(TAGS.SetUp, "1")
+                this.pgn.header.tags.set(TAGS.FEN, chess.fen())
+                this.pgn.history.setUpFen = fen
+            }
         } else {
             throw Error("Invalid fen " + fen)
         }
     }
 
+    /**
+     * Load a PGN with variants, NAGs, header and annotations. cm-chess uses cm-pgn
+     * fot the header and history. See https://github.com/shaack/cm-pgn
+     * @param pgn
+     */
     loadPgn(pgn) {
         this.pgn = new Pgn(pgn)
     }
 
-    move(move, previousMove = null, sloppy = false) {
+    /**
+     * Make a move in the game.
+     * @param move
+     * @param previousMove optional, the previous move (variants)
+     * @param sloppy to allow sloppy SAN
+     * @returns {{}|undefined}
+     */
+    move(move, previousMove = undefined, sloppy = false) {
         try {
             return this.pgn.history.addMove(move, previousMove, sloppy)
         } catch (e) {
-            return null
+            return undefined
         }
-
     }
 
+    /**
+     * This one is not fully implemented in cm-pgn. For now, it just uses pgn() of chess.js.
+     * @returns {string} the PGN of the game.
+     */
     renderPgn() {
         // TODO create pgn with variants, annotations, nags (for now just render main variant)
         const chess = new ChessJs(this.setUpFen())
@@ -144,35 +200,42 @@ export class Chess {
     }
 
     /**
-     * return the pieces (positions) at a specific move
+     * Get the position of the specified figures at a specific move
+     * @param type "p", "n", "b",...
+     * @param color "b" or "w"
+     * @param move
+     * @returns {[]} the pieces (positions) at a specific move
      */
-    pieces(type = null, color = null, move = this.lastMove()) {
+    pieces(type = undefined, color = undefined, move = this.lastMove()) {
         const chessJs = move ? new ChessJs(move.fen) : new ChessJs()
         let result = []
         for (let i = 0; i < 64; i++) {
             const square = chessJs.SQUARES[i]
             const piece = chessJs.get(square)
-            if (piece !== null) {
+            if (piece) {
                 piece.square = square
             }
-            if (type === null) {
-                if (color === null && piece !== null) {
+            if (!type) {
+                if (!color && piece) {
                     result.push(piece)
                 }
-            } else if (color === null && piece !== null && piece.type === type) {
+            } else if (!color && piece && piece.type === type) {
                 result.push(piece)
-            } else if (piece !== null && piece.color === color && piece.type === type) {
+            } else if (piece && piece.color === color && piece.type === type) {
                 result.push(piece)
             }
         }
         return result
     }
 
+    /**
+     * @returns {COLOR} "b" or "w" the color to move in the main variant
+     */
     turn() {
         let factor = 0
         if (this.setUpFen()) {
             const fenParts = this.setUpFen().split(" ")
-            if (fenParts[1] === "b") {
+            if (fenParts[1] === COLOR.black) {
                 factor = 1
             }
         }
@@ -180,12 +243,13 @@ export class Chess {
     }
 
     /**
-     * undo a move and all moves after it
+     * Undo a move and all moves after it
+     * @param move
      */
     undo(move = this.lastMove()) {
         // decouple from previous
         if (move.previous) {
-            move.previous.next = null
+            move.previous.next = undefined
         }
         // splice all next moves
         const index = move.variation.findIndex(element => {

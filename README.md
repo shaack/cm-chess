@@ -20,6 +20,20 @@ PGN header values, Nags and Comments.
 See the unit tests for usage examples
 https://github.com/shaack/cm-chess/blob/master/test/TestChess.js
 
+## API
+
+### constructor(fen = FEN.start)
+
+Creates a new chess class, takes a FEN as parameter.
+
+### fen()
+
+Returns the FEN of the last move, or the setUpFen(), if no move was made.
+
+### setUpFen()
+
+
+
 ## Test
 
 [Run the unit tests](https://shaack.com/projekte/cm-chess/test/)
