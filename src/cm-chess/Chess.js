@@ -54,8 +54,8 @@ export class Chess {
      * @returns {string} the setUp FEN in the header or the default start-FEN
      */
     setUpFen() {
-        if (this.pgn.header.tags.get(TAGS.SetUp)) {
-            return this.pgn.header.tags.get(TAGS.FEN)
+        if (this.pgn.header.tags[TAGS.SetUp]) {
+            return this.pgn.header.tags[TAGS.FEN]
         } else {
             return FEN.start
         }
@@ -152,8 +152,8 @@ export class Chess {
         if (chess && chess.fen() === fen) {
             this.pgn = new Pgn()
             if (fen !== FEN.start) {
-                this.pgn.header.tags.set(TAGS.SetUp, "1")
-                this.pgn.header.tags.set(TAGS.FEN, chess.fen())
+                this.pgn.header.tags[TAGS.SetUp] = "1"
+                this.pgn.header.tags[TAGS.FEN] = chess.fen()
                 this.pgn.history.setUpFen = fen
             }
         } else {

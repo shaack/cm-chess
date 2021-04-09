@@ -9,14 +9,14 @@ describe("Chess", function () {
     it("should create empty Chess", () => {
         const chess = new Chess()
         assert.equals(chess.history().length, 0)
-        assert.equals(chess.header().size, 0)
+        assert.equals(Object.keys(chess.header()).length, 0)
         assert.equals(chess.fen(), FEN.start)
     })
 
     it("should load a game from FEN", function() {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
         const chess = new Chess(fen)
-        assert.equals(chess.pgn.header.tags.get("FEN"), fen)
+        assert.equals(chess.pgn.header.tags[TAGS.FEN], fen)
         assert.equals(chess.fen(), fen)
     })
 
@@ -50,7 +50,7 @@ describe("Chess", function () {
 17.Bf5 exf5 18.Rxe7 Bxe7 19.c4 1-0`
         chess.loadPgn(pgn)
         assert.equals(chess.history().length, 37)
-        assert.equals(chess.header().get(TAGS.White), "Deep Blue")
+        assert.equals(chess.header()[TAGS.White], "Deep Blue")
         const firstMove = chess.history()[0]
         assert.equals(firstMove.color, "w")
         assert.equals(firstMove.san, "e4")
@@ -91,8 +91,8 @@ describe("Chess", function () {
 0-1`
         chess.loadPgn(pgn, {}, true)
         assert.equals(5, chess.pgn.history.moves.length)
-        assert.equals("Schaak opheffen", chess.pgn.header.tags.get(TAGS.White))
-        assert.equals("app 037-1", chess.pgn.header.tags.get(TAGS.Annotator))
+        assert.equals("Schaak opheffen", chess.pgn.header.tags[TAGS.White])
+        assert.equals("app 037-1", chess.pgn.header.tags[TAGS.Annotator])
     })
 
     it('should allow traverse through moves', () => {
