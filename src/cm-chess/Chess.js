@@ -8,12 +8,12 @@ import {TAGS} from "../../lib/cm-pgn/Header.js"
 import {Chess as ChessJs} from "../../lib/chess.mjs/Chess.js"
 
 export const PIECES = {
-    pawn: {type: "p", value: 1},
-    knight: {type: "n", value: 3},
-    bishop: {type: "b", value: 3},
-    rook: {type: "r", value: 5},
-    queen: {type: "q", value: 9},
-    king: {type: "k", value: Infinity}
+    p: {name: "pawn", value: 1},
+    n: {name: "knight", value: 3},
+    b: {name: "bishop", value: 3},
+    r: {name: "rook", value: 5},
+    q: {name: "queen", value: 9},
+    k: {name: "king", value: Infinity}
 }
 
 export const COLOR = {
