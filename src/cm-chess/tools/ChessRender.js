@@ -40,7 +40,7 @@ export const PIECES = {
 // noinspection JSUnusedGlobalSymbols
 export class ChessRender {
     static san(san, color = COLOR.white, lang = "en", mode = "text", pieces = PIECES.figures.utf8) {
-        console.warn("ChessRender is deprecated and will be removed in future")
+        // console.warn("ChessRender is deprecated and will be removed in future")
         if(mode === "figures") {
             if (color === COLOR.white) {
                 return this.replaceAll(san, {
