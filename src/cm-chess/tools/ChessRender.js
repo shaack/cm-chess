@@ -7,11 +7,9 @@
  */
 
 import {COLOR} from "../Chess.js"
-import {PIECES_VALUES} from "../Chess.js"
 
 export const PIECES = {
     // https://en.wikipedia.org/wiki/Chess_piece_relative_value
-    values: PIECES_VALUES,
     notation: {
         de: {
             R: "T", N: "S", B: "L", Q: "D", K: "K", P: ""
@@ -39,9 +37,10 @@ export const PIECES = {
     }
 }
 
+// noinspection JSUnusedGlobalSymbols
 export class ChessRender {
     static san(san, color = COLOR.white, lang = "en", mode = "text", pieces = PIECES.figures.utf8) {
-        console.warn("ChessRender is deprecated")
+        console.warn("ChessRender is deprecated and will be removed in future")
         if(mode === "figures") {
             if (color === COLOR.white) {
                 return this.replaceAll(san, {
