@@ -229,7 +229,7 @@ export class Chess {
     }
 
     /**
-     * @returns {COLOR} "b" or "w" the color to move in the main variant
+     * @returns {string} "b" or "w" the color to move in the main variant
      */
     turn() {
         let factor = 0
