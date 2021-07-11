@@ -1,6 +1,6 @@
 import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.js"
 import {TAGS} from "../lib/cm-pgn/Header.js"
-import {describe, it, assert} from "../node_modules/teevi/src/teevi.js";
+import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
 
 // TODO create a test, which demonstrates all features, including variants
 
