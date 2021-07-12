@@ -32,8 +32,16 @@ export const FEN = {
  */
 export class Chess {
 
-    constructor(fen = FEN.start) {
-        this.load(fen)
+    constructor(fenOrProps = FEN.start) {
+        if(typeof fenOrProps === "string") {
+            this.load(fenOrProps)
+        } else {
+            if(fenOrProps.fen) {
+                this.load(fenOrProps.fen)
+            } else if(fenOrProps.pgn) {
+                this.loadPgn(fenOrProps.pgn)
+            }
+        }
     }
 
     /**

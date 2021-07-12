@@ -13,26 +13,25 @@ describe("Chess", function () {
         assert.equals(chess.fen(), FEN.start)
     })
 
-    it("should load a game from FEN", function() {
+    it("should load a game from FEN", function () {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
         const chess = new Chess(fen)
         assert.equals(chess.pgn.header.tags[TAGS.FEN], fen)
         assert.equals(chess.fen(), fen)
     })
 
-    it("should load a pgn with SetUp and FEN", function() {
+    it("should load a pgn with SetUp and FEN", function () {
         const pgn = `[SetUp "1"]
 [FEN "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"]
 
 1. e4 (1. d4 {Die Variante} d5) e5 {Ein Kommentar} 2. a3`
-        const chess = new Chess()
-        chess.loadPgn(pgn)
+        const chess = new Chess({pgn: pgn})
         assert.equals(chess.move("Nc6"), undefined)
         const result = chess.move("h6")
         assert.equals(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
     })
 
-    it("should load a pgn", function() {
+    it("should load a pgn", function () {
         const chess = new Chess()
         const pgn = `[Event "IBM Kasparov vs. Deep Blue Rematch"]
 [Site "New York, NY USA"]
@@ -59,7 +58,6 @@ describe("Chess", function () {
     })
 
     it("should load a pgn with SetUp", () => {
-        const chess = new Chess()
         const pgn = `[Event "?"]
 [White "?"]
 [Black "?"]
@@ -69,7 +67,7 @@ describe("Chess", function () {
 
 1. Qc1 Qe6 2. Qxc7 
 0-1`
-        chess.loadPgn(pgn)
+        const chess = new Chess({pgn: pgn})
         assert.equals(chess.history()[2].san, "Qxc7")
     })
 
@@ -89,7 +87,7 @@ describe("Chess", function () {
 
 1... Bf8 (1... Qf8? 2. Qxf8+ Bxf8 3. exd4) 2. exd4 Qxd4+ {%Q} 3. Kh1 Bh3 
 0-1`
-        chess.loadPgn(pgn, {}, true)
+        chess.loadPgn(pgn)
         assert.equals(5, chess.pgn.history.moves.length)
         assert.equals("Schaak opheffen", chess.pgn.header.tags[TAGS.White])
         assert.equals("app 037-1", chess.pgn.header.tags[TAGS.Annotator])
@@ -185,7 +183,7 @@ describe("Chess", function () {
         assert.equals(chess.fenOfPly(3), "8/8/b2Bq3/8/4p3/3k1pP1/2Q5/3K4 b - - 3 2")
     })
 
-    it("should not load incorrect FEN", function() {
+    it("should not load incorrect FEN", function () {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPP/4K3 w - - 0 1"
         try {
             new Chess(fen)
@@ -202,9 +200,9 @@ describe("Chess", function () {
         }
     })
 
-    it("should load different PGNs and then work correctly", function() {
+    it("should load different PGNs and then work correctly", function () {
         const fen = "ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"
-        const chess = new Chess(fen)
+        const chess = new Chess({fen: fen})
         assert.true(chess.move("e4") === undefined)
         assert.true(chess.move("Ke2") !== undefined)
         chess.load(FEN.start)
