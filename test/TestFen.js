@@ -8,5 +8,8 @@ describe("Fen", function () {
         assert.equals(fen.position, "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R")
         assert.equals(fen.colorToPlay, "b")
         assert.equals(fen.castlings.length, 4)
+        assert.equals(fen.enPassantTargetSquare, undefined)
+        assert.equals(fen.plyClock, 1)
+        assert.equals(fen.moveNumber, 2)
     })
 })
