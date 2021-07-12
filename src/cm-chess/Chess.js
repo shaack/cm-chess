@@ -258,8 +258,17 @@ export class Chess {
         move.variation = move.variation.splice(index)
     }
 
-    static plyToTurnNumber(ply) {
-        return (ply - 1) / 2 + 1
+    plyCount() {
+        return this.history().length
     }
+
+    fenOfPly(plyNumber) {
+        if(plyNumber > 0) {
+            return this.history()[plyNumber - 1].fen
+        } else {
+            return this.setUpFen()
+        }
+    }
+
 
 }

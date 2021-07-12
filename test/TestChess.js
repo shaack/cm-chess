@@ -180,6 +180,9 @@ describe("Chess", function () {
         chess.undo(chess.history()[5])
         // console.log(chess.history());
         assert.equals(chess.history().length, 5)
+        assert.equals(chess.plyCount(), 5)
+        assert.equals(chess.fenOfPly(0), "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1")
+        assert.equals(chess.fenOfPly(3), "8/8/b2Bq3/8/4p3/3k1pP1/2Q5/3K4 b - - 3 2")
     })
 
     it("should not load incorrect FEN", function() {
