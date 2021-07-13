@@ -40,6 +40,8 @@ export class Chess {
                 this.load(fenOrProps.fen)
             } else if(fenOrProps.pgn) {
                 this.loadPgn(fenOrProps.pgn)
+            } else {
+                this.load(FEN.start)
             }
         }
     }
