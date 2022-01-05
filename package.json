@@ -2,7 +2,7 @@
   "name": "cm-chess",
   "version": "2.1.6",
   "description": "Like chess.js, but in ES6 and can handle variants (tree-structured move history)",
-  "main": "index.html",
+  "main": "./src/cm-chess/Chess.js",
   "scripts": {
     "test": "mocha --require babel-core/register ./test/*.js",
     "postinstall": "node postinstall.js"
