@@ -143,7 +143,7 @@ export class Chess {
     }
 
     /**
-     * @returns {undefined|move} the last move of the main variant or `undefined`, if no move was made
+     * @returns {undefined|move} the last move of the main variation or `undefined`, if no move was made
      */
     lastMove() {
         if (this.pgn.history.moves.length > 0) {
@@ -200,7 +200,7 @@ export class Chess {
      * @returns {string} the PGN of the game.
      */
     renderPgn() {
-        // TODO create pgn with variations, annotations, nags (for now just render main variant)
+        // TODO create pgn with variations, annotations, nags (for now just render main variation)
         const chess = new ChessJs(this.setUpFen())
         const moves = this.pgn.history.moves
         for (const move of moves) {
@@ -239,7 +239,7 @@ export class Chess {
     }
 
     /**
-     * @returns {string} "b" or "w" the color to move in the main variant
+     * @returns {string} "b" or "w" the color to move in the main variation
      */
     turn() {
         let factor = 0
