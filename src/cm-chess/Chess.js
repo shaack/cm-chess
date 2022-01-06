@@ -172,7 +172,7 @@ export class Chess {
     }
 
     /**
-     * Load a PGN with variants, NAGs, header and annotations. cm-chess uses cm-pgn
+     * Load a PGN with variations, NAGs, header and annotations. cm-chess uses cm-pgn
      * fot the header and history. See https://github.com/shaack/cm-pgn
      * @param pgn
      */
@@ -183,7 +183,7 @@ export class Chess {
     /**
      * Make a move in the game.
      * @param move
-     * @param previousMove optional, the previous move (variants)
+     * @param previousMove optional, the previous move (for variations)
      * @param sloppy to allow sloppy SAN
      * @returns {{}|undefined}
      */
@@ -200,7 +200,7 @@ export class Chess {
      * @returns {string} the PGN of the game.
      */
     renderPgn() {
-        // TODO create pgn with variants, annotations, nags (for now just render main variant)
+        // TODO create pgn with variations, annotations, nags (for now just render main variant)
         const chess = new ChessJs(this.setUpFen())
         const moves = this.pgn.history.moves
         for (const move of moves) {

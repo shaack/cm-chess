@@ -1,7 +1,7 @@
 # cm-chess 
 
 It is like [chess.js](https://github.com/jhlywa/chess.js), 
-but is an ES6 module, can handle history variants (tree-structured move history), 
+but is an ES6 module, can handle history variations (tree-structured move history), 
 PGN header values, Nags and Comments.
 
 ## Install
@@ -11,7 +11,7 @@ PGN header values, Nags and Comments.
 ## Features
 
 - It has a similar API to chess.js
-- It can handle history variants
+- It can handle history variations
 - It can add Nags, Comments and Annotations
 - It is used by the 7,000 users of [chessmail](https://www.chessmail.de) (it works)
 
