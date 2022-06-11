@@ -203,7 +203,7 @@ export class Chess {
      * @returns the move object or null if not valid
      */
     validateMove(move, previousMove = undefined, sloppy = true) {
-        return this.pgn.history.validateMove(move, previousMove, sloppy)
+        return this.pgn.history.validateMove(move, previousMove, sloppy) // todo unit test
     }
 
     /**
