@@ -196,6 +196,17 @@ export class Chess {
     }
 
     /**
+     * Don't make a move, just validate, if it would be a correct move
+     * @param move
+     * @param previousMove optional, the previous move (for variations)
+     * @param sloppy to allow sloppy SAN
+     * @returns the move object or null if not valid
+     */
+    validateMove(move, previousMove = undefined, sloppy = true) {
+        return this.pgn.history.validateMove(move, previousMove, sloppy)
+    }
+
+    /**
      * This one is not fully implemented in cm-pgn. For now, it just uses pgn() of chess.js.
      * @returns {string} the PGN of the game.
      */

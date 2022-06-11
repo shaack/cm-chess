@@ -5,11 +5,11 @@ describe("Fen", function () {
 
     it("should parse a fen", () => {
         const fen = new Fen("rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2")
-        assert.equals(fen.position, "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R")
-        assert.equals(fen.colorToPlay, "b")
-        assert.equals(fen.castlings.length, 4)
-        assert.equals(fen.enPassantTargetSquare, undefined)
-        assert.equals(fen.plyClock, 1)
-        assert.equals(fen.moveNumber, 2)
+        assert.equal(fen.position, "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R")
+        assert.equal(fen.colorToPlay, "b")
+        assert.equal(fen.castlings.length, 4)
+        assert.equal(fen.enPassantTargetSquare, undefined)
+        assert.equal(fen.plyClock, 1)
+        assert.equal(fen.moveNumber, 2)
     })
 })

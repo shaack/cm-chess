@@ -24,11 +24,11 @@
   },
   "homepage": "https://github.com/shaack/cm-chess#readme",
   "dependencies": {
-    "chess.mjs": "^1.1.1",
-    "cm-pgn": "^2.1.4",
-    "modrator": "^1.1.6"
+    "chess.mjs": "^1.2.0",
+    "cm-pgn": "^2.1.9",
+    "modrator": "^1.2.1"
   },
   "devDependencies": {
-    "teevi": "^2.1.4"
+    "teevi": "^2.1.11"
   }
 }
