@@ -143,13 +143,13 @@ export class Chess {
     }
 
     /**
-     * @returns {undefined|move} the last move of the main variation or `undefined`, if no move was made
+     * @returns {null|move} the last move of the main variation or `null`, if no move was made
      */
     lastMove() {
         if (this.pgn.history.moves.length > 0) {
             return this.pgn.history.moves[this.pgn.history.moves.length - 1]
         } else {
-            return undefined
+            return null
         }
     }
 
@@ -185,13 +185,13 @@ export class Chess {
      * @param move
      * @param previousMove optional, the previous move (for variations)
      * @param sloppy to allow sloppy SAN
-     * @returns {{}|undefined}
+     * @returns {{}|null}
      */
     move(move, previousMove = undefined, sloppy = true) {
         try {
             return this.pgn.history.addMove(move, previousMove, sloppy)
         } catch (e) {
-            return undefined
+            return null
         }
     }
 
@@ -203,7 +203,7 @@ export class Chess {
      * @returns the move object or null if not valid
      */
     validateMove(move, previousMove = undefined, sloppy = true) {
-        return this.pgn.history.validateMove(move, previousMove, sloppy) // todo unit test
+        return this.pgn.history.validateMove(move, previousMove, sloppy)
     }
 
     /**
