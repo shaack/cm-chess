@@ -3,7 +3,7 @@ import {Fen} from "../src/cm-chess/Fen.js"
 
 describe("Fen", function () {
 
-    it("should parse a fen", () => {
+    it("should parse and generate a FEN", () => {
         const fenString = "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R b KQkq - 1 2"
         const fen = new Fen(fenString)
         assert.equal(fen.position, "rnbqkbnr/pp1ppppp/8/2p5/4P3/5N2/PPPP1PPP/RNBQKB1R")
