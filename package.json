@@ -1,6 +1,6 @@
 {
   "name": "cm-chess",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "Like chess.js, but in ES6 and can handle variations (tree-structured move history)",
   "main": "./src/cm-chess/Chess.js",
   "scripts": {
