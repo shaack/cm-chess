@@ -217,7 +217,20 @@ describe("Chess", function () {
         assert.notEqual(chess.validateMove("Nf3"), null)
         assert.equal(chess.validateMove("xyz"), null)
         assert.equal(chess.validateMove("e6"), null)
+    })
 
+    it("should publish events", function() {
+        return new Promise((resolve, reject) => {
+            const chess = new Chess()
+            chess.addObserver((event, data) => {
+                if(event === "legalMove" && data.move === "e4") {
+                    resolve()
+                } else {
+                    reject("error event")
+                }
+            })
+            chess.move("e4")
+        })
     })
 
 })

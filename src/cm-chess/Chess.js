@@ -26,6 +26,21 @@ export const FEN = {
     start: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
 }
 
+export const EVENT_TYPE = {
+    illegalMove: "illegalMove",
+    legalMove: "legalMove",
+    undoMove: "undoMove",
+    initialized: "initialized"
+}
+
+function publishEvent(observers, eventType, data = {}) {
+    for (const observer of observers) {
+        setTimeout(() => {
+            observer(eventType, data)
+        })
+    }
+}
+
 /**
  * Like chess.js, but handles variations and is written in ES5
  * Uses chess.js for validation and cm-pgn for the history and PGN header
@@ -33,12 +48,13 @@ export const FEN = {
 export class Chess {
 
     constructor(fenOrProps = FEN.start) {
-        if(typeof fenOrProps === "string") {
+        this.observers = []
+        if (typeof fenOrProps === "string") {
             this.load(fenOrProps)
         } else {
-            if(fenOrProps.fen) {
+            if (fenOrProps.fen) {
                 this.load(fenOrProps.fen)
-            } else if(fenOrProps.pgn) {
+            } else if (fenOrProps.pgn) {
                 this.loadPgn(fenOrProps.pgn)
             } else {
                 this.load(FEN.start)
@@ -169,6 +185,7 @@ export class Chess {
         } else {
             throw Error("Invalid fen " + fen)
         }
+        publishEvent(this.observers, EVENT_TYPE.initialized, {fen: fen})
     }
 
     /**
@@ -178,6 +195,7 @@ export class Chess {
      */
     loadPgn(pgn) {
         this.pgn = new Pgn(pgn)
+        publishEvent(this.observers, EVENT_TYPE.initialized, {pgn: pgn})
     }
 
     /**
@@ -189,8 +207,11 @@ export class Chess {
      */
     move(move, previousMove = undefined, sloppy = true) {
         try {
-            return this.pgn.history.addMove(move, previousMove, sloppy)
+            const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
+            publishEvent(this.observers, EVENT_TYPE.legalMove, {move: move, previousMove: previousMove})
+            return moveResult
         } catch (e) {
+            publishEvent(this.observers, EVENT_TYPE.illegalMove, {move: move, previousMove: previousMove})
             return null
         }
     }
@@ -277,6 +298,7 @@ export class Chess {
             return element.ply === move.ply
         })
         move.variation = move.variation.splice(index)
+        publishEvent(this.observers, EVENT_TYPE.undoMove, {move: move})
     }
 
     plyCount() {
@@ -284,12 +306,15 @@ export class Chess {
     }
 
     fenOfPly(plyNumber) {
-        if(plyNumber > 0) {
+        if (plyNumber > 0) {
             return this.history()[plyNumber - 1].fen
         } else {
             return this.setUpFen()
         }
     }
 
+    addObserver(callback) {
+        this.observers.push(callback)
+    }
 
 }

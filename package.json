@@ -29,6 +29,6 @@
     "modrator": "^1.2.1"
   },
   "devDependencies": {
-    "teevi": "^2.1.11"
+    "teevi": "^2.2.1"
   }
 }
