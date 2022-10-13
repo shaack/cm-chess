@@ -5,7 +5,7 @@
  */
 import {Pgn} from "../../lib/cm-pgn/Pgn.js"
 import {TAGS} from "../../lib/cm-pgn/Header.js"
-import {Chess as ChessJs} from "../../lib/chess.mjs/Chess.js"
+import {Chess as ChessJs, SQUARES} from "../../lib/chess.mjs/Chess.js"
 
 export const PIECES = {
     p: {name: "pawn", value: 1},
@@ -65,14 +65,11 @@ export class Chess {
     /**
      * @returns {string} the FEN of the last move, or the setUpFen(), if no move was made.
      */
-    fen() {
-        const lastMove = this.lastMove()
-        if (lastMove) {
-            return lastMove.fen
-        } else if (this.setUpFen()) {
-            return this.setUpFen()
+    fen(move = this.lastMove()) {
+        if (move) {
+            return move.fen
         } else {
-            return FEN.start
+            return this.setUpFen()
         }
     }
 
@@ -217,6 +214,31 @@ export class Chess {
     }
 
     /**
+     * Return all valid moves
+     * @param options {{ square: "e2", piece: "n", verbose: true }}
+     * Fields with { verbose: true }
+     * - `color` indicates the color of the moving piece (w or b).
+     * - `from` and `to` fields are from and to squares in algebraic notation.
+     * - `piece`, `captured`, and `promotion` fields contain the lowercase representation of the applicable piece (pnbrqk). The captured and promotion fields are only present when the move is a valid capture or promotion.
+     * - `san` is the move in Standard Algebraic Notation (SAN).
+     * - `flags` field contains one or more of the string values:
+     *      n - a non-capture
+     *      b - a pawn push of two squares
+     *      e - an en passant capture
+     *      c - a standard capture
+     *      p - a promotion
+     *      k - kingside castling
+     *      q - queenside castling
+     *   A flags value of pc would mean that a pawn captured a piece on the 8th rank and promoted.
+     * @param previousMove
+     * @returns {{}}
+     */
+    moves(options = undefined, previousMove = this.lastMove()) {
+        const chessJs = new ChessJs(this.fen(previousMove))
+        return chessJs.moves(options)
+    }
+
+    /**
      * Don't make a move, just validate, if it would be a correct move
      * @param move
      * @param previousMove optional, the previous move (for variations)
@@ -252,7 +274,7 @@ export class Chess {
         const chessJs = move ? new ChessJs(move.fen) : new ChessJs()
         let result = []
         for (let i = 0; i < 64; i++) {
-            const square = chessJs.SQUARES[i]
+            const square = SQUARES[i]
             const piece = chessJs.get(square)
             if (piece) {
                 piece.square = square
@@ -316,5 +338,4 @@ export class Chess {
     addObserver(callback) {
         this.observers.push(callback)
     }
-
 }

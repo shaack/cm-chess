@@ -233,4 +233,15 @@ describe("Chess", function () {
         })
     })
 
+    it("should provide valid moves", function() {
+        const chess = new Chess()
+        assert.equal(chess.moves().length, 20)
+        chess.move("Nc3")
+        assert.equal(chess.moves().length, 20)
+        chess.move("e5")
+        assert.equal(chess.moves().length, 22)
+        assert.equal(JSON.stringify(chess.moves({ square: "e2"})), '["e3","e4"]')
+        assert.equal(JSON.stringify(chess.moves({ piece: "n" })), '["Na4","Nb5","Nd5","Ne4","Nb1","Nf3","Nh3"]')
+    })
+
 })
