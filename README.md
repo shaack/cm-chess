@@ -1,7 +1,7 @@
 # cm-chess 
 
-It is like [chess.js](https://github.com/jhlywa/chess.js), 
-but is an ES6 module, can handle history variations (tree-structured move history), 
+It is like [chess.js](https://github.com/jhlywa/chess.js) (and uses chess.js), 
+but can handle history variations (tree-structured move history), 
 PGN header values, Nags and Comments.
 
 ## Install
