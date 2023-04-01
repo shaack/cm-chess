@@ -5,7 +5,7 @@
   "main": "./src/cm-chess/Chess.js",
   "type": "module",
   "scripts": {
-    "postinstall": "node postinstall.js"
+    "postinstall": "node postinstall.cjs"
   },
   "repository": {
     "type": "git",
@@ -25,10 +25,10 @@
   "homepage": "https://github.com/shaack/cm-chess#readme",
   "dependencies": {
     "chess.mjs": "^1.3.1",
-    "cm-pgn": "^2.1.11",
-    "modlib": "^1.2.10"
+    "cm-pgn": "^2.2.2",
+    "modlib": "^1.2.12"
   },
   "devDependencies": {
-    "teevi": "^2.2.2"
+    "teevi": "^2.2.3"
   }
 }
