@@ -250,17 +250,14 @@ export class Chess {
     }
 
     /**
-     * This one is not fully implemented in cm-pgn. For now, it just uses pgn() of chess.js.
+     * Render the game as PGN with header, comments and NAGs
+     * @param renderHeader optional, default true
+     * @param renderComments optional, default true
+     * @param renderNags optional, default true
      * @returns {string} the PGN of the game.
      */
-    renderPgn() {
-        // TODO create pgn with variations, annotations, nags (for now just render main variation)
-        const chess = new ChessJs(this.setUpFen())
-        const moves = this.pgn.history.moves
-        for (const move of moves) {
-            chess.move(move)
-        }
-        return chess.pgn()
+    renderPgn(renderHeader = true, renderComments = true, renderNags = true) {
+        return this.pgn.render(renderHeader, renderComments, renderNags);
     }
 
     /**
