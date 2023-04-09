@@ -97,6 +97,7 @@ describe("Chess", function () {
         const chess = new Chess()
         const pgn = `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
+[Result "1-0"]
 
 1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 
 1-0`
@@ -111,11 +112,12 @@ describe("Chess", function () {
         assert.equal(chess.lastMove().inCheckmate, true)
         assert.equal(chess.inCheckmate(), true)
         assert.equal(chess.inDraw(), false)
-        // TODO result, 1-0 is missing
         assert.equal(chess.renderPgn(), `[SetUp "1"]
 [FEN "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1"]
+[Result "1-0"]
 
-1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 5. Bc5#`)
+1. Qc5+ Kd3 2. Qc2+ Kd4 3. Qd2+ Bd3 4. Qe3+ Kxe3 (4... Kc3 5. Qc1+ Kb3 6. Qa3+
+Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
     })
 
     it('should add move at the end of the history', () => {

@@ -25,10 +25,10 @@
   "homepage": "https://github.com/shaack/cm-chess#readme",
   "dependencies": {
     "chess.mjs": "^1.3.1",
-    "cm-pgn": "2.3.0",
+    "cm-pgn": "2.3.1",
     "modlib": "^1.2.12"
   },
   "devDependencies": {
-    "teevi": "^2.2.3"
+    "teevi": "^2.2.4"
   }
 }
