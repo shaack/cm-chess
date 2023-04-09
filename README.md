@@ -1,6 +1,6 @@
 # cm-chess 
 
-It is like [chess.js](https://github.com/jhlywa/chess.js) (and uses is based on an older version of chess.js), 
+It is like [chess.js](https://github.com/jhlywa/chess.js) (and is based on an older version of chess.js), 
 but can handle history variations (tree-structured move history), 
 PGN header values, Nags and Comments.
 
