@@ -1,7 +1,7 @@
 /**
  * @author Stefan Haack (https://shaack.com)
  */
-const {TAGS} = await importNodeModule("cm-pgn/src/Header.js")
+const {TAGS} = await import(nodeModulesUrl + "cm-pgn/src/Header.js")
 import {Chess, COLOR, FEN} from "../src/Chess.js"
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
 
