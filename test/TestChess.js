@@ -1,8 +1,9 @@
-import {Chess, COLOR, FEN} from "../src/cm-chess/Chess.js"
-import {TAGS} from "../lib/cm-pgn/Header.js"
+/**
+ * @author Stefan Haack (https://shaack.com)
+ */
+const {TAGS} = await importNodeModule("cm-pgn/src/Header.js")
+import {Chess, COLOR, FEN} from "../src/Chess.js"
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-
-// TODO create a test, which demonstrates all features, including variations
 
 describe("Chess", function () {
 

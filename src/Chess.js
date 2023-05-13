@@ -3,9 +3,9 @@
  * Repository: https://github.com/shaack/cm-chess
  * License: MIT, see file 'LICENSE'
  */
-import {Pgn} from "../../lib/cm-pgn/Pgn.js"
-import {TAGS} from "../../lib/cm-pgn/Header.js"
-import {Chess as ChessJs, SQUARES} from "../../lib/chess.mjs/Chess.js"
+const {Pgn} = await importNodeModule("/cm-pgn/src/Pgn.js")
+const {TAGS} = await importNodeModule("/cm-pgn/src/Header.js")
+const {Chess: ChessJs, SQUARES} = await importNodeModule("/chess.mjs/src/Chess.js")
 
 export const PIECES = {
     p: {name: "pawn", value: 1},

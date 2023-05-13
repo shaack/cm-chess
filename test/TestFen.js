@@ -1,5 +1,5 @@
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
-import {Fen} from "../src/cm-chess/Fen.js"
+import {Fen} from "../src/Fen.js"
 
 describe("Fen", function () {
 

@@ -17,7 +17,7 @@ PGN header values, Nags and Comments.
 
 ## API
 
-For documentation, see the jsdoc annotations in [Chess.js](https://github.com/shaack/cm-chess/blob/master/src/cm-chess/Chess.js).
+For documentation, see the jsdoc annotations in [Chess.js](https://github.com/shaack/cm-chess/blob/master/src/Chess.js).
 
 cm-chess uses [cm-pgn](https://github.com/shaack/cm-pgn) for the
 header and history, therefore you have also the full API of **cm-pgn**.
