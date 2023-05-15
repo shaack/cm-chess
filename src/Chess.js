@@ -33,10 +33,10 @@ export const EVENT_TYPE = {
     initialized: "initialized"
 }
 
-function publishEvent(observers, eventType, data = {}) {
+function publishEvent(observers, event) {
     for (const observer of observers) {
         setTimeout(() => {
-            observer(eventType, data)
+            observer(event)
         })
     }
 }
@@ -182,7 +182,7 @@ export class Chess {
         } else {
             throw Error("Invalid fen " + fen)
         }
-        publishEvent(this.observers, EVENT_TYPE.initialized, {fen: fen})
+        publishEvent(this.observers, {type: EVENT_TYPE.initialized, fen: fen})
     }
 
     /**
@@ -192,7 +192,7 @@ export class Chess {
      */
     loadPgn(pgn) {
         this.pgn = new Pgn(pgn)
-        publishEvent(this.observers, EVENT_TYPE.initialized, {pgn: pgn})
+        publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
 
     /**
@@ -205,10 +205,12 @@ export class Chess {
     move(move, previousMove = undefined, sloppy = true) {
         try {
             const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
-            publishEvent(this.observers, EVENT_TYPE.legalMove, {move: move, previousMove: previousMove})
+            publishEvent(this.observers,
+                {type: EVENT_TYPE.legalMove, move: move, previousMove: previousMove})
             return moveResult
         } catch (e) {
-            publishEvent(this.observers, EVENT_TYPE.illegalMove, {move: move, previousMove: previousMove})
+            publishEvent(this.observers,
+                {type: EVENT_TYPE.illegalMove, move: move, previousMove: previousMove})
             return null
         }
     }
@@ -257,7 +259,7 @@ export class Chess {
      * @returns {string} the PGN of the game.
      */
     renderPgn(renderHeader = true, renderComments = true, renderNags = true) {
-        return this.pgn.render(renderHeader, renderComments, renderNags);
+        return this.pgn.render(renderHeader, renderComments, renderNags)
     }
 
     /**
@@ -317,7 +319,7 @@ export class Chess {
             return element.ply === move.ply
         })
         move.variation = move.variation.splice(index)
-        publishEvent(this.observers, EVENT_TYPE.undoMove, {move: move})
+        publishEvent(this.observers, {type: EVENT_TYPE.undoMove, move: move})
     }
 
     plyCount() {
