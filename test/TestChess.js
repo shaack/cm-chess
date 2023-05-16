@@ -1,9 +1,9 @@
 /**
  * @author Stefan Haack (https://shaack.com)
  */
-const {TAGS} = await import(nodeModulesUrl + "cm-pgn/src/Header.js")
-import {Chess, COLOR, FEN} from "../src/Chess.js"
+const {TAGS} = await import(`${node_modules}/cm-pgn/src/Header.js`)
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
+import {Chess, COLOR, FEN} from "../src/Chess.js"
 
 describe("Chess", function () {
 
@@ -225,8 +225,8 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
     it("should publish events", function() {
         return new Promise((resolve, reject) => {
             const chess = new Chess()
-            chess.addObserver((event, data) => {
-                if(event === "legalMove" && data.move === "e4") {
+            chess.addObserver((event) => {
+                if(event.type === "legalMove" && event.move === "e4") {
                     resolve()
                 } else {
                     reject("error event")
