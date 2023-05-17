@@ -1,7 +1,7 @@
 /**
  * @author Stefan Haack (https://shaack.com)
  */
-const {TAGS} = await import(`${node_modules}/cm-pgn/src/Header.js`)
+import {TAGS} from "cm-pgn/src/Header.js"
 import {describe, it, assert} from "../node_modules/teevi/src/teevi.js"
 import {Chess, COLOR, FEN} from "../src/Chess.js"
 

@@ -4,9 +4,19 @@
     <title>cm-chess tests</title>
 </head>
 <body>
-<script type="module" src="../node_modules/import-node-modules/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.7.2/dist/es-module-shims.min.js"></script>
+<script type="importmap">
+    {
+        "imports": {
+            "teevi/": "../node_modules/teevi/",
+            "cm-pgn/": "../node_modules/cm-pgn/",
+            "chess.mjs/": "../node_modules/chess.mjs/"
+        }
+    }
+
+</script>
 <script type="module">
-    import {teevi} from "../node_modules/teevi/src/teevi.js"
+    import {teevi} from "teevi/src/teevi.js"
     import "./TestChess.js"
     import "./TestFen.js"
     teevi.run()
