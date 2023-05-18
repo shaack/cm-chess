@@ -232,11 +232,11 @@ export class Chess {
      *      k - kingside castling
      *      q - queenside castling
      *   A flags value of pc would mean that a pawn captured a piece on the 8th rank and promoted.
-     * @param previousMove
+     * @param move
      * @returns {{}}
      */
-    moves(options = undefined, previousMove = this.lastMove()) {
-        const chessJs = new ChessJs(this.fen(previousMove))
+    moves(options = undefined, move = this.lastMove()) {
+        const chessJs = new ChessJs(this.fen(move))
         return chessJs.moves(options)
     }
 
