@@ -292,6 +292,17 @@ export class Chess {
     }
 
     /**
+     * get the piece on a square
+     * @param square
+     * @param move
+     * @returns {{color: any, type: any}|null}
+     */
+    piece(square, move = this.lastMove()) {
+        const chessJs = move ? new ChessJs(move.fen) : new ChessJs()
+        return chessJs.get(square)
+    }
+
+    /**
      * @returns {string} "b" or "w" the color to move in the main variation
      */
     turn() {

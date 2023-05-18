@@ -19,6 +19,8 @@ describe("Chess", function () {
         const chess = new Chess(fen)
         assert.equal(chess.pgn.header.tags[TAGS.FEN], fen)
         assert.equal(chess.fen(), fen)
+        assert.equal(chess.piece("e1").type, "k")
+        assert.equal(chess.piece("e1").color, "w")
     })
 
     it("should load a pgn with SetUp and FEN", function () {
