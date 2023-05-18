@@ -294,7 +294,7 @@ export class Chess {
      * @returns {[]} the pieces (positions) at a specific move
      */
     pieces(type = undefined, color = undefined, move = this.lastMove()) {
-        const chessJs = move ? new ChessJs(move.fen) : new ChessJs()
+        const chessJs = move ? new ChessJs(move.fen) : new ChessJs(this.fen())
         let result = []
         for (let i = 0; i < 64; i++) {
             const square = SQUARES[i]
@@ -322,7 +322,7 @@ export class Chess {
      * @returns {{color: any, type: any}|null}
      */
     piece(square, move = this.lastMove()) {
-        const chessJs = move ? new ChessJs(move.fen) : new ChessJs()
+        const chessJs = move ? new ChessJs(move.fen) : new ChessJs(this.fen())
         return chessJs.get(square)
     }
 
