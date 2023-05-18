@@ -249,4 +249,9 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         assert.equal(JSON.stringify(chess.moves({ piece: "n" })), '["Na4","Nb5","Nd5","Ne4","Nb1","Nf3","Nh3"]')
     })
 
+    it("should detect a check in a game without moves", function() {
+        const chess = new Chess("4k3/1P6/8/b7/6r1/8/pp2PPPP/2R1KBNR w K - 0 1")
+        assert.true(chess.inCheck())
+    })
+
 })

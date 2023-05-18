@@ -96,7 +96,11 @@ export class Chess {
      * @returns {boolean} true, if the game is over at that move
      */
     gameOver(move = this.lastMove()) {
-        return move && move.gameOver
+        if(move) {
+            return move.gameOver
+        } else {
+            return new ChessJs(this.fen()).game_over()
+        }
     }
 
     /**
@@ -104,7 +108,11 @@ export class Chess {
      * @returns {boolean} true, if the game is in draw at that move
      */
     inDraw(move = this.lastMove()) {
-        return move && move.inDraw === true
+        if(move) {
+            return move.inDraw === true
+        } else {
+            return new ChessJs(this.fen()).in_draw()
+        }
     }
 
     /**
@@ -112,7 +120,11 @@ export class Chess {
      * @returns {boolean} true, if the game is in statemate at that move
      */
     inStalemate(move = this.lastMove()) {
-        return move && move.inStalemate === true
+        if(move) {
+            return move.inStalemate === true
+        } else {
+            return new ChessJs(this.fen()).in_stalemate()
+        }
     }
 
     /**
@@ -120,7 +132,11 @@ export class Chess {
      * @returns {boolean} true, if the game is in draw, because of unsufficiant material at that move
      */
     insufficientMaterial(move = this.lastMove()) {
-        return move && move.insufficientMaterial === true
+        if(move) {
+            return move.insufficientMaterial === true
+        } else {
+            return new ChessJs(this.fen()).insufficient_material()
+        }
     }
 
     /**
@@ -136,7 +152,11 @@ export class Chess {
      * @returns {boolean} true, if the game is in checkmate at that move
      */
     inCheckmate(move = this.lastMove()) {
-        return move && move.inCheckmate === true
+        if(move) {
+            return move.inCheckmate === true
+        } else {
+            return new ChessJs(this.fen()).in_checkmate()
+        }
     }
 
     /**
@@ -144,7 +164,11 @@ export class Chess {
      * @returns {boolean} true, if the game is in check at that move
      */
     inCheck(move = this.lastMove()) {
-        return move && move.inCheck === true
+        if(move) {
+            return move.inCheck === true
+        } else {
+            return new ChessJs(this.fen()).in_check()
+        }
     }
 
     /**
