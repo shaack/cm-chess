@@ -230,7 +230,7 @@ export class Chess {
         try {
             const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
             publishEvent(this.observers,
-                {type: EVENT_TYPE.legalMove, move: move, previousMove: previousMove})
+                {type: EVENT_TYPE.legalMove, move: moveResult, previousMove: previousMove})
             return moveResult
         } catch (e) {
             publishEvent(this.observers,
