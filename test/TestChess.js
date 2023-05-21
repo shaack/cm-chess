@@ -215,7 +215,7 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         assert.true(chess.move("e4"))
     })
 
-    it("should validate Moves", function() {
+    it("should validate Moves", function () {
         const chess = new Chess()
         assert.notEqual(chess.validateMove("e4"), null)
         assert.notEqual(chess.validateMove("e3"), null)
@@ -224,11 +224,13 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         assert.equal(chess.validateMove("e6"), null)
     })
 
-    it("should publish events", function() {
+    it("should publish events", function () {
         return new Promise((resolve, reject) => {
             const chess = new Chess()
             chess.addObserver((event) => {
-                if(event.type === "legalMove" && event.move === "e4") {
+                if (event.type === "legalMove" &&
+                    event.move.from === "e2" &&
+                    event.move.to === "e4") {
                     resolve()
                 } else {
                     reject("error event")
@@ -238,18 +240,18 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         })
     })
 
-    it("should provide valid moves", function() {
+    it("should provide valid moves", function () {
         const chess = new Chess()
         assert.equal(chess.moves().length, 20)
         chess.move("Nc3")
         assert.equal(chess.moves().length, 20)
         chess.move("e5")
         assert.equal(chess.moves().length, 22)
-        assert.equal(JSON.stringify(chess.moves({ square: "e2"})), '["e3","e4"]')
-        assert.equal(JSON.stringify(chess.moves({ piece: "n" })), '["Na4","Nb5","Nd5","Ne4","Nb1","Nf3","Nh3"]')
+        assert.equal(JSON.stringify(chess.moves({square: "e2"})), '["e3","e4"]')
+        assert.equal(JSON.stringify(chess.moves({piece: "n"})), '["Na4","Nb5","Nd5","Ne4","Nb1","Nf3","Nh3"]')
     })
 
-    it("should detect a check in a game without moves", function() {
+    it("should detect a check in a game without moves", function () {
         const chess = new Chess("4k3/1P6/8/b7/6r1/8/pp2PPPP/2R1KBNR w K - 0 1")
         assert.true(chess.inCheck())
     })
