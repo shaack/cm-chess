@@ -18,15 +18,25 @@ export class Fen {
         const fenParts = fen.split(" ")
         this.position = fenParts[0]
         this.colorToPlay = fenParts[1]
-        this.castlings = fenParts[2].split("")
+        if(fenParts[2] !== "-") {
+            this.castlings = fenParts[2].split("")
+        } else {
+            this.castlings = []
+        }
         this.enPassantTargetSquare = fenParts[3]
         this.plyClock = parseInt(fenParts[4], 10)
         this.moveNumber = parseInt(fenParts[5], 10)
     }
 
     toString() {
-        return this.position + " " + this.colorToPlay + " " + this.castlings.join("") + " " +
-            this.enPassantTargetSquare + " " + this.plyClock + " " + this.moveNumber
+        let fen = this.position + " " + this.colorToPlay + " "
+        if (this.castlings.length > 0) {
+            fen += this.castlings.join("")
+        } else {
+            fen += "-"
+        }
+        fen += " " + this.enPassantTargetSquare + " " + this.plyClock + " " + this.moveNumber
+        return fen
     }
 
 }
