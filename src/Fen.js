@@ -15,6 +15,9 @@ export class Fen {
      * @param fen
      */
     parse(fen) {
+        if (!fen.match(/^[1-8PpNnBbRrQqKk\/]+ [wb] (-|K?Q?k?q?) (-|[a-h][36]) \d+ \d+$/)) {
+            throw new Error("Invalid FEN: " + fen)
+        }
         const fenParts = fen.split(" ")
         this.position = fenParts[0]
         this.colorToPlay = fenParts[1]
