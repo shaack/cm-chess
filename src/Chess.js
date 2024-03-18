@@ -331,6 +331,7 @@ export class Chess {
      * @returns {string} "b" or "w" the color to move in the main variation
      */
     turn(move = this.lastMove()) {
+        console.log("move", move)
         let factor = 0
         if (this.setUpFen()) {
             const fenParts = this.setUpFen().split(" ")
@@ -338,7 +339,8 @@ export class Chess {
                 factor = 1
             }
         }
-        return (move.ply) % 2 === factor ? COLOR.white : COLOR.black
+        const ply = move ? move.ply : 0
+        return (ply) % 2 === factor ? COLOR.white : COLOR.black
     }
 
     /**
