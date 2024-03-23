@@ -182,7 +182,6 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
 1-0`
         chess.loadPgn(pgn)
         chess.undo(chess.history()[5])
-        // console.log(chess.history());
         assert.equal(chess.history().length, 5)
         assert.equal(chess.plyCount(), 5)
         assert.equal(chess.fenOfPly(0), "8/8/b2Bq3/7Q/3kp3/5pP1/8/3K4 w - - 0 1")
