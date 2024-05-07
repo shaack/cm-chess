@@ -13,7 +13,7 @@ PGN header values, Nags and Comments.
 - It has a similar API to chess.js
 - It can handle history variations
 - It can add Nags, Comments and Annotations
-- It is used by the 7,000 users of [chessmail](https://www.chessmail.de) (it works)
+- It is a core compoent of my online chess server [chessmail.de](https://www.chessmail.de) (it works)
 
 ## API
 
