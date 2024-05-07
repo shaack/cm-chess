@@ -279,14 +279,17 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
 [FEN "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"]
 
 1.Rc8c7 *`
+        let chess
         try {
-            let chess = new Chess({pgn: pgn, sloppy: false})
+            chess = new Chess({pgn: pgn, sloppy: false})
             assert.fail("should throw error")
         } catch (e) {
             // ok
         }
+        assert.true(chess == null)
         // should work with sloppy = true
-        let chess = new Chess({pgn: pgn, sloppy: true})
+        chess = new Chess({pgn: pgn, sloppy: true})
+        assert.true(chess != null)
     })
 
 })
