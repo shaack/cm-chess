@@ -255,4 +255,38 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         assert.true(chess.inCheck())
     })
 
+    // see https://www.chessmail.de/forum/thread.html?key=GINGFqlNiAjf&sv=6
+    it("should make a move with sloppy SAN", function () {
+        let chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
+        let result = chess.move("R8c7", undefined,false)
+        assert.true(result !== null)
+        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
+        result = chess.move("Rc8c7", undefined,false)
+        assert.true(result == null)
+        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
+        result = chess.move("Rc8-c7", undefined,false)
+        assert.true(result == null)
+        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
+        result = chess.move("Rc8-c7", undefined,true)
+        assert.true(result != null)
+        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
+        result = chess.move("Rc8c7", undefined,true)
+        assert.true(result != null)
+    })
+
+    it("should load a sloppy pgn", function () {
+        const pgn = `pgn [SetUp "1"]
+[FEN "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"]
+
+1.Rc8c7 *`
+        try {
+            let chess = new Chess({pgn: pgn, sloppy: false})
+            assert.fail("should throw error")
+        } catch (e) {
+            // ok
+        }
+        // should work with sloppy = true
+        let chess = new Chess({pgn: pgn, sloppy: true})
+    })
+
 })

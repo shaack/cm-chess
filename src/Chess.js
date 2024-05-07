@@ -49,16 +49,22 @@ export class Chess {
 
     constructor(fenOrProps = FEN.start) {
         this.observers = []
+        this.props = {
+            fen: undefined, // use a fen or a pgn with setUpFen
+            pgn: undefined,
+            sloppy: false // sloppy parsing allows small mistakes in SAN
+        }
         if (typeof fenOrProps === "string") {
-            this.load(fenOrProps)
+            this.props.fen = fenOrProps
+        } else if (typeof fenOrProps === "object") {
+            Object.assign(this.props, fenOrProps)
+        }
+        if (this.props.fen) {
+            this.load(this.props.fen)
+        } else if (this.props.pgn) {
+            this.loadPgn(this.props.pgn)
         } else {
-            if (fenOrProps.fen) {
-                this.load(fenOrProps.fen)
-            } else if (fenOrProps.pgn) {
-                this.loadPgn(fenOrProps.pgn)
-            } else {
-                this.load(FEN.start)
-            }
+            this.load(FEN.start)
         }
     }
 
@@ -96,7 +102,7 @@ export class Chess {
      * @returns {boolean} true, if the game is over at that move
      */
     gameOver(move = this.lastMove()) {
-        if(move) {
+        if (move) {
             return move.gameOver
         } else {
             return new ChessJs(this.fen()).game_over()
@@ -108,7 +114,7 @@ export class Chess {
      * @returns {boolean} true, if the game is in draw at that move
      */
     inDraw(move = this.lastMove()) {
-        if(move) {
+        if (move) {
             return move.inDraw === true
         } else {
             return new ChessJs(this.fen()).in_draw()
@@ -120,7 +126,7 @@ export class Chess {
      * @returns {boolean} true, if the game is in statemate at that move
      */
     inStalemate(move = this.lastMove()) {
-        if(move) {
+        if (move) {
             return move.inStalemate === true
         } else {
             return new ChessJs(this.fen()).in_stalemate()
@@ -132,7 +138,7 @@ export class Chess {
      * @returns {boolean} true, if the game is in draw, because of unsufficiant material at that move
      */
     insufficientMaterial(move = this.lastMove()) {
-        if(move) {
+        if (move) {
             return move.insufficientMaterial === true
         } else {
             return new ChessJs(this.fen()).insufficient_material()
@@ -152,7 +158,7 @@ export class Chess {
      * @returns {boolean} true, if the game is in checkmate at that move
      */
     inCheckmate(move = this.lastMove()) {
-        if(move) {
+        if (move) {
             return move.inCheckmate === true
         } else {
             return new ChessJs(this.fen()).in_checkmate()
@@ -164,7 +170,7 @@ export class Chess {
      * @returns {boolean} true, if the game is in check at that move
      */
     inCheck(move = this.lastMove()) {
-        if(move) {
+        if (move) {
             return move.inCheck === true
         } else {
             return new ChessJs(this.fen()).in_check()
@@ -213,9 +219,10 @@ export class Chess {
      * Load a PGN with variations, NAGs, header and annotations. cm-chess uses cm-pgn
      * fot the header and history. See https://github.com/shaack/cm-pgn
      * @param pgn
+     * @param sloppy to allow sloppy SAN
      */
-    loadPgn(pgn) {
-        this.pgn = new Pgn(pgn)
+    loadPgn(pgn, sloppy = this.props.sloppy) {
+        this.pgn = new Pgn(pgn, {sloppy: sloppy})
         publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
 
@@ -226,7 +233,7 @@ export class Chess {
      * @param sloppy to allow sloppy SAN
      * @returns {{}|null}
      */
-    move(move, previousMove = undefined, sloppy = true) {
+    move(move, previousMove = undefined, sloppy = this.props.sloppy) {
         try {
             const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
             publishEvent(this.observers,
@@ -271,7 +278,7 @@ export class Chess {
      * @param sloppy to allow sloppy SAN
      * @returns the move object or null if not valid
      */
-    validateMove(move, previousMove = undefined, sloppy = true) {
+    validateMove(move, previousMove = undefined, sloppy = this.props.sloppy) {
         return this.pgn.history.validateMove(move, previousMove, sloppy)
     }
 
