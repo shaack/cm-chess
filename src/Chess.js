@@ -52,7 +52,7 @@ export class Chess {
         this.props = {
             fen: undefined, // use a fen or a pgn with setUpFen
             pgn: undefined,
-            sloppy: false // sloppy parsing allows small mistakes in SAN
+            sloppy: true // sloppy parsing allows small mistakes in SAN
         }
         if (typeof fenOrProps === "string") {
             this.props.fen = fenOrProps
