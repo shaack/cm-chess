@@ -47,11 +47,21 @@ function publishEvent(observers, event) {
  */
 export class Chess {
 
+    /**
+     * @param fenOrProps {string|object}
+     * - a FEN string, if a string is passed
+     * - an object with properties:
+     *      fen: a FEN string, if a string is passed
+     *      pgn: a PGN string, if a string is passed
+     *      chess960: true, if chess960 is used
+     *      sloppy: true, if sloppy parsing is allowed
+     */
     constructor(fenOrProps = FEN.start) {
         this.observers = []
         this.props = {
             fen: undefined, // use a fen or a pgn with setUpFen
             pgn: undefined,
+            chess960: false,
             sloppy: true // sloppy parsing allows small mistakes in SAN
         }
         if (typeof fenOrProps === "string") {
@@ -105,7 +115,7 @@ export class Chess {
         if (move) {
             return move.gameOver
         } else {
-            return new ChessJs(this.fen()).game_over()
+            return new ChessJs(this.fen(), {chess960: this.props.chess960}).game_over()
         }
     }
 
@@ -117,7 +127,7 @@ export class Chess {
         if (move) {
             return move.inDraw === true
         } else {
-            return new ChessJs(this.fen()).in_draw()
+            return new ChessJs(this.fen(), {chess960: this.props.chess960}).in_draw()
         }
     }
 
@@ -129,7 +139,7 @@ export class Chess {
         if (move) {
             return move.inStalemate === true
         } else {
-            return new ChessJs(this.fen()).in_stalemate()
+            return new ChessJs(this.fen(), {chess960: this.props.chess960}).in_stalemate()
         }
     }
 
@@ -141,7 +151,7 @@ export class Chess {
         if (move) {
             return move.insufficientMaterial === true
         } else {
-            return new ChessJs(this.fen()).insufficient_material()
+            return new ChessJs(this.fen(), {chess960: this.props.chess960}).insufficient_material()
         }
     }
 
@@ -161,7 +171,7 @@ export class Chess {
         if (move) {
             return move.inCheckmate === true
         } else {
-            return new ChessJs(this.fen()).in_checkmate()
+            return new ChessJs(this.fen(), {chess960: this.props.chess960}).in_checkmate()
         }
     }
 
@@ -173,7 +183,7 @@ export class Chess {
         if (move) {
             return move.inCheck === true
         } else {
-            return new ChessJs(this.fen()).in_check()
+            return new ChessJs(this.fen(), {chess960: this.props.chess960}).in_check()
         }
     }
 
@@ -201,7 +211,7 @@ export class Chess {
      * @param fen
      */
     load(fen) {
-        const chess = new ChessJs(fen)
+        const chess = new ChessJs(fen, {chess960: this.props.chess960})
         if (chess && chess.fen() === fen) {
             this.pgn = new Pgn()
             if (fen !== FEN.start) {
@@ -267,7 +277,7 @@ export class Chess {
      * @returns {{}}
      */
     moves(options = undefined, move = this.lastMove()) {
-        const chessJs = new ChessJs(this.fen(move))
+        const chessJs = new ChessJs(this.fen(move), {chess960: this.props.chess960})
         return chessJs.moves(options)
     }
 
@@ -301,7 +311,7 @@ export class Chess {
      * @returns {[]} the pieces (positions) at a specific move
      */
     pieces(type = undefined, color = undefined, move = this.lastMove()) {
-        const chessJs = move ? new ChessJs(move.fen) : new ChessJs(this.fen())
+        const chessJs = move ? new ChessJs(move.fen, {chess960: this.props.chess960}) : new ChessJs(this.fen(), {chess960: this.props.chess960})
         let result = []
         for (let i = 0; i < 64; i++) {
             const square = SQUARES[i]
@@ -329,7 +339,7 @@ export class Chess {
      * @returns {{color: any, type: any}|null}
      */
     piece(square, move = this.lastMove()) {
-        const chessJs = move ? new ChessJs(move.fen) : new ChessJs(this.fen())
+        const chessJs = move ? new ChessJs(move.fen, {chess960: this.props.chess960}) : new ChessJs(this.fen(), {chess960: this.props.chess960})
         return chessJs.get(square)
     }
 
