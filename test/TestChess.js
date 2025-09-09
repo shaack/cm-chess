@@ -205,10 +205,15 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         }
     })
 
-    it("should load different PGNs and then work correctly", function () {
+    it.only("should load different PGNs and then work correctly", function () {
         const fen = "ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"
         const chess = new Chess({fen: fen})
-        assert.true(chess.move("e4") === null)
+        assert.equal(chess.history().length, 0)
+        assert.equal(chess.turn(), COLOR.white)
+        assert.equal(chess.fen(), fen)
+        const result = chess.move("e4");
+        assert.equal(chess.fen(), fen)
+        assert.true(result === null)
         assert.true(chess.move("Ke2") !== null)
         chess.load(FEN.start)
         assert.true(chess.move("e4"))
