@@ -48,27 +48,30 @@ function publishEvent(observers, event) {
 export class Chess {
 
     /**
-     * @param fenOrProps {string|object}
-     * - a FEN string, if a string is passed
-     * - an object with properties:
-     *      fen: a FEN string, if a string is passed
-     *      pgn: a PGN string, if a string is passed
-     *      chess960: true, if chess960 is used
+     * @param props {object}
+     * - an object with these properties:
+     *      fen: a FEN string
+     *      pgn: a PGN
+     *      chess960: true, if chess960 are used
      *      sloppy: true, if sloppy parsing is allowed
      */
-    constructor(fenOrProps = {}) {
+    constructor(props = {}) {
         this.observers = []
         this.props = {
-            fen: FEN.start, // use a fen or a pgn with setUpFen
+            fen: undefined, // use a fen or a pgn with setUpFen
             pgn: undefined,
             chess960: false,
-            sloppy: true // sloppy parsing allows small mistakes in SAN
+            sloppy: true, // sloppy parsing allows small mistakes in SAN
+            ...props
         }
-        if (typeof fenOrProps === "string") {
-            this.props.fen = fenOrProps
-        } else if (typeof fenOrProps === "object") {
-            Object.assign(this.props, fenOrProps)
+        if (typeof props === "string") {
+            console.warn("directly passing a FEN is deprecated, use `{fen: \"" + props + "\"}`")
+            this.props.fen = props
         }
+        if (!this.props.fen && !this.props.pgn) {
+            this.props.fen = FEN.start
+        }
+        console.log("Chess constructor this.props", this.props)
         if (this.props.fen) {
             this.load(this.props.fen)
         } else if (this.props.pgn) {
@@ -214,6 +217,7 @@ export class Chess {
         console.log("Chess load", fen)
         console.log("Chess this.props", this.props)
         const chess = new ChessJs(fen, {chess960: this.props.chess960})
+        console.log("Chess chess", chess, chess.fen())
         if (chess && chess.fen() === fen) {
             this.pgn = new Pgn()
             if (fen !== FEN.start) {
@@ -235,6 +239,7 @@ export class Chess {
      * @param sloppy to allow sloppy SAN
      */
     loadPgn(pgn, sloppy = this.props.sloppy) {
+        console.log("Chess loadPgn", pgn)
         this.pgn = new Pgn(pgn, {sloppy: sloppy})
         publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
@@ -248,10 +253,9 @@ export class Chess {
      */
     move(move, previousMove = undefined, sloppy = this.props.sloppy) {
         try {
-            console.log("Chess this.pgn.history 1", this.pgn.history)
+            console.log("Chess this.pgn.history", this.pgn.history)
             const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
             console.log("Chess moveResult", moveResult)
-            console.log("Chess this.pgn.history 2", this.pgn.history)
             publishEvent(this.observers,
                 {type: EVENT_TYPE.legalMove, move: moveResult, previousMove: previousMove})
             return moveResult

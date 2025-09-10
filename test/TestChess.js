@@ -23,7 +23,7 @@ describe("Chess", function () {
         assert.equal(chess.piece("e1").color, "w")
     })
 
-    it.only("should load a pgn with SetUp and FEN", function () {
+    it("should load a pgn with SetUp and FEN", function () {
         const pgn = `[SetUp "1"]
 [FEN "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"]
 
@@ -31,6 +31,7 @@ describe("Chess", function () {
         const chess = new Chess({pgn: pgn})
         assert.equal(chess.move("Nc6"), null)
         const result = chess.move("h6")
+        console.log("TestChess result", result)
         assert.equal(result.fen, "4k3/pppp1pp1/7p/4p3/4P3/P7/1PPP1PPP/4K3 w - - 0 3")
     })
 
