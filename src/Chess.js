@@ -219,7 +219,7 @@ export class Chess {
         const chess = new ChessJs(fen, {chess960: this.props.chess960})
         console.log("Chess chess", chess, chess.fen())
         if (chess && chess.fen() === fen) {
-            this.pgn = new Pgn()
+            this.pgn = new Pgn(undefined, {chess960: this.props.chess960})
             if (fen !== FEN.start) {
                 this.pgn.header.tags[TAGS.SetUp] = "1"
                 this.pgn.header.tags[TAGS.FEN] = chess.fen()
