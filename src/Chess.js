@@ -56,10 +56,10 @@ export class Chess {
      *      chess960: true, if chess960 is used
      *      sloppy: true, if sloppy parsing is allowed
      */
-    constructor(fenOrProps = FEN.start) {
+    constructor(fenOrProps = {}) {
         this.observers = []
         this.props = {
-            fen: undefined, // use a fen or a pgn with setUpFen
+            fen: FEN.start, // use a fen or a pgn with setUpFen
             pgn: undefined,
             chess960: false,
             sloppy: true // sloppy parsing allows small mistakes in SAN
@@ -211,14 +211,17 @@ export class Chess {
      * @param fen
      */
     load(fen) {
+        console.log("Chess load", fen)
+        console.log("Chess this.props", this.props)
         const chess = new ChessJs(fen, {chess960: this.props.chess960})
         if (chess && chess.fen() === fen) {
             this.pgn = new Pgn()
             if (fen !== FEN.start) {
                 this.pgn.header.tags[TAGS.SetUp] = "1"
                 this.pgn.header.tags[TAGS.FEN] = chess.fen()
-                this.pgn.history.setUpFen = fen
+                this.pgn.history.props.setUpFen = fen
             }
+            console.log("Chess this.pgn", this.pgn)
         } else {
             throw Error("Invalid fen " + fen)
         }
@@ -245,7 +248,10 @@ export class Chess {
      */
     move(move, previousMove = undefined, sloppy = this.props.sloppy) {
         try {
+            console.log("Chess this.pgn.history 1", this.pgn.history)
             const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
+            console.log("Chess moveResult", moveResult)
+            console.log("Chess this.pgn.history 2", this.pgn.history)
             publishEvent(this.observers,
                 {type: EVENT_TYPE.legalMove, move: moveResult, previousMove: previousMove})
             return moveResult

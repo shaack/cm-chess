@@ -23,7 +23,7 @@ describe("Chess", function () {
         assert.equal(chess.piece("e1").color, "w")
     })
 
-    it("should load a pgn with SetUp and FEN", function () {
+    it.only("should load a pgn with SetUp and FEN", function () {
         const pgn = `[SetUp "1"]
 [FEN "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"]
 
@@ -205,7 +205,7 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         }
     })
 
-    it.only("should load different PGNs and then work correctly", function () {
+    it("should load an unusual FEN", function () {
         const fen = "ppppkppp/pppppppp/pppppppp/pppppppp/8/8/8/RNBQKBNR w KQ - 0 1"
         const chess = new Chess({fen: fen})
         assert.equal(chess.history().length, 0)
