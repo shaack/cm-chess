@@ -7,6 +7,15 @@ import {Chess, COLOR, FEN} from "../src/Chess.js"
 
 describe("Chess", function () {
 
+    it("should make a black move from FEN and SAN", function () {
+        const chess = new Chess("rnbqkbnr/pppp1ppp/8/4p3/4PP2/8/PPPP2PP/RNBQKBNR b KQkq f3 0 2")
+        const result = chess.move("d5")
+        assert.true(result)
+        const chess2 = new Chess({fen: "rnbqkbnr/ppp2ppp/8/3pp3/4PP2/8/PPPP2PP/RNBQKBNR w KQkq d6 0 3"})
+        const result2 = chess2.move("Ne2")
+        assert.true(result)
+    })
+
     it("should create empty Chess", () => {
         const chess = new Chess()
         assert.equal(chess.history().length, 0)

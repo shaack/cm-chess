@@ -71,7 +71,6 @@ export class Chess {
         if (!this.props.fen && !this.props.pgn) {
             this.props.fen = FEN.start
         }
-        console.log("Chess constructor this.props", this.props)
         if (this.props.fen) {
             this.load(this.props.fen)
         } else if (this.props.pgn) {
@@ -214,10 +213,7 @@ export class Chess {
      * @param fen
      */
     load(fen) {
-        console.log("Chess load", fen)
-        console.log("Chess this.props", this.props)
         const chess = new ChessJs(fen, {chess960: this.props.chess960})
-        console.log("Chess chess", chess, chess.fen())
         if (chess && chess.fen() === fen) {
             this.pgn = new Pgn(undefined, {chess960: this.props.chess960})
             if (fen !== FEN.start) {
@@ -225,7 +221,6 @@ export class Chess {
                 this.pgn.header.tags[TAGS.FEN] = chess.fen()
                 this.pgn.history.props.setUpFen = fen
             }
-            console.log("Chess this.pgn", this.pgn)
         } else {
             throw Error("Invalid fen " + fen)
         }
@@ -239,7 +234,6 @@ export class Chess {
      * @param sloppy to allow sloppy SAN
      */
     loadPgn(pgn, sloppy = this.props.sloppy) {
-        console.log("Chess loadPgn", pgn)
         this.pgn = new Pgn(pgn, {sloppy: sloppy})
         publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
@@ -253,9 +247,7 @@ export class Chess {
      */
     move(move, previousMove = undefined, sloppy = this.props.sloppy) {
         try {
-            console.log("Chess this.pgn.history", this.pgn.history)
             const moveResult = this.pgn.history.addMove(move, previousMove, sloppy)
-            console.log("Chess moveResult", moveResult)
             publishEvent(this.observers,
                 {type: EVENT_TYPE.legalMove, move: moveResult, previousMove: previousMove})
             return moveResult
