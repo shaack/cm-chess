@@ -13,7 +13,7 @@ describe("Chess", function () {
         assert.true(result)
         const chess2 = new Chess({fen: "rnbqkbnr/ppp2ppp/8/3pp3/4PP2/8/PPPP2PP/RNBQKBNR w KQkq d6 0 3"})
         const result2 = chess2.move("Ne2")
-        assert.true(result)
+        assert.true(result2)
     })
 
     it("should create empty Chess", () => {
