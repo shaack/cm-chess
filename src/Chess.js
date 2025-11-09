@@ -247,12 +247,15 @@ export class Chess {
 
     /**
      * Load a PGN with variations, NAGs, header and annotations. cm-chess uses cm-pgn
-     * fot the header and history. See https://github.com/shaack/cm-pgn
+     * for the header and history. See https://github.com/shaack/cm-pgn
      * @param pgn
      * @param sloppy to allow sloppy SAN
      */
     loadPgn(pgn, sloppy = this.props.sloppy) {
         this.pgn = new Pgn(pgn, {sloppy: sloppy})
+        if(this.pgn.props.chess960) {
+            this.props.gameVariant = GAME_VARIANT.chess960
+        }
         publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
 
