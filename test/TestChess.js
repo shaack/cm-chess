@@ -8,7 +8,7 @@ import {Chess, COLOR, FEN} from "../src/Chess.js"
 describe("Chess", function () {
 
     it("should make a black move from FEN and SAN", function () {
-        const chess = new Chess("rnbqkbnr/pppp1ppp/8/4p3/4PP2/8/PPPP2PP/RNBQKBNR b KQkq f3 0 2")
+        const chess = new Chess({fen: "rnbqkbnr/pppp1ppp/8/4p3/4PP2/8/PPPP2PP/RNBQKBNR b KQkq f3 0 2"})
         const result = chess.move("d5")
         assert.true(result)
         const chess2 = new Chess({fen: "rnbqkbnr/ppp2ppp/8/3pp3/4PP2/8/PPPP2PP/RNBQKBNR w KQkq d6 0 3"})
@@ -25,7 +25,7 @@ describe("Chess", function () {
 
     it("should load a game from FEN", function () {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPPPP/4K3 w - - 0 1"
-        const chess = new Chess(fen)
+        const chess = new Chess({fen: fen})
         assert.equal(chess.pgn.header.tags[TAGS.FEN], fen)
         assert.equal(chess.fen(), fen)
         assert.equal(chess.piece("e1").type, "k")
@@ -201,7 +201,7 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
     it("should not load incorrect FEN", function () {
         const fen = "4k3/pppppppp/8/8/8/8/PPPPPP/4K3 w - - 0 1"
         try {
-            new Chess(fen)
+            new Chess({fen: fen})
             assert.true(false)
         } catch (e) {
             // OK
@@ -221,7 +221,7 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         assert.equal(chess.history().length, 0)
         assert.equal(chess.turn(), COLOR.white)
         assert.equal(chess.fen(), fen)
-        const result = chess.move("e4");
+        const result = chess.move("e4")
         assert.equal(chess.fen(), fen)
         assert.true(result === null)
         assert.true(chess.move("Ke2") !== null)
@@ -266,26 +266,26 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
     })
 
     it("should detect a check in a game without moves", function () {
-        const chess = new Chess("4k3/1P6/8/b7/6r1/8/pp2PPPP/2R1KBNR w K - 0 1")
+        const chess = new Chess({fen: "4k3/1P6/8/b7/6r1/8/pp2PPPP/2R1KBNR w K - 0 1"})
         assert.true(chess.inCheck())
     })
 
     // see https://www.chessmail.de/forum/thread.html?key=GINGFqlNiAjf&sv=6
     it("should make a move with sloppy SAN", function () {
-        let chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
-        let result = chess.move("R8c7", undefined,false)
+        let chess = new Chess({fen: "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"})
+        let result = chess.move("R8c7", undefined, false)
         assert.true(result !== null)
-        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
-        result = chess.move("Rc8c7", undefined,false)
+        chess = new Chess({fen: "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"})
+        result = chess.move("Rc8c7", undefined, false)
         assert.true(result == null)
-        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
-        result = chess.move("Rc8-c7", undefined,false)
+        chess = new Chess({fen: "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"})
+        result = chess.move("Rc8-c7", undefined, false)
         assert.true(result == null)
-        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
-        result = chess.move("Rc8-c7", undefined,true)
+        chess = new Chess({fen: "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"})
+        result = chess.move("Rc8-c7", undefined, true)
         assert.true(result != null)
-        chess = new Chess("r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44")
-        result = chess.move("Rc8c7", undefined,true)
+        chess = new Chess({fen: "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"})
+        result = chess.move("Rc8c7", undefined, true)
         assert.true(result != null)
     })
 
