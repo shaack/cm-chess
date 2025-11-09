@@ -253,6 +253,9 @@ export class Chess {
      */
     loadPgn(pgn, sloppy = this.props.sloppy) {
         this.pgn = new Pgn(pgn, {sloppy: sloppy})
+        if(this.pgn.props.chess960) {
+            this.props.gameVariant = GAME_VARIANT.chess960
+        }
         publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
 

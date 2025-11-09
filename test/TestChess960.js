@@ -58,6 +58,7 @@ N3xd4 exd4 28. Bxd4 Nac5 29. Bxf6 Nxf6 30. c7 b3 31. axb3 Na6 32. Kb1 Nb4
 33. Qc4 Ne8 34. Rd8 Qxf5+ 35. Ka1 Nc2+ 36. Qxc2 1-0`
         const chess = new Chess()
         chess.loadPgn(pgn)
+        assert.equal(chess.props.gameVariant, GAME_VARIANT.chess960)
         assert.equal(chess.fen(), "2rRn2k/2P3pp/8/pN3q2/8/1P6/1PQ4P/K5R1 b - - 0 36")
     })
 })
