@@ -2,13 +2,13 @@
  * @author Stefan Haack (https://shaack.com)
  */
 import {describe, it, assert} from "teevi/src/teevi.js"
-import {Chess} from "../src/Chess.js"
+import {Chess, GAME_VARIANT} from "../src/Chess.js"
 
 describe("Testing Chess 960", function () {
 
     it("should load a chess960 game from a valid chess960 fen and do castling", function () {
         const fen = "nrkbrnbq/pppppppp/8/8/8/8/PPPPPPPP/NRKBRNBQ w KQkq - 0 1"
-        const chess = new Chess({chess960: true})
+        const chess = new Chess({gameVariant: GAME_VARIANT.chess960})
         chess.load(fen)
         assert.equal(chess.fen(), fen)
         assert.true(chess.move("f4"))
