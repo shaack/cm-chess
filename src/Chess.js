@@ -33,6 +33,18 @@ export const EVENT_TYPE = {
     initialized: "initialized"
 }
 
+export const GAME_VARIANT = {
+    standard: "standard",
+    chess960: "chess960"
+//  kingOfTheHill: "kingOfTheHill",
+//  threeCheck: "threeCheck",
+//  antichess: "antichess",
+//  atomic: "atomic",
+//  horde: "horde",
+//  racingKings: "racingKings",
+//  crazyhouse: "crazyhouse"
+}
+
 function publishEvent(observers, event) {
     for (const observer of observers) {
         setTimeout(() => {
@@ -47,17 +59,35 @@ function publishEvent(observers, event) {
  */
 export class Chess {
 
-    constructor(fenOrProps = FEN.start) {
+    /**
+     * @param props {object}
+     * - an object with these properties:
+     *      fen: a FEN string
+     *      pgn: a PGN
+     *      gameVariant:
+     *      chess960: true, if chess960 are used
+     *      sloppy: true, if sloppy parsing is allowed
+     */
+    constructor(props = {}) {
         this.observers = []
         this.props = {
             fen: undefined, // use a fen or a pgn with setUpFen
             pgn: undefined,
-            sloppy: true // sloppy parsing allows small mistakes in SAN
+            gameVariant: GAME_VARIANT.standard,
+            chess960: undefined,
+            sloppy: true, // sloppy parsing allows small mistakes in SAN
+            ...props
         }
-        if (typeof fenOrProps === "string") {
-            this.props.fen = fenOrProps
-        } else if (typeof fenOrProps === "object") {
-            Object.assign(this.props, fenOrProps)
+        if(this.props.chess960 !== undefined) {
+            console.warn("props.chess960 is deprecated, use GAME_VARIANT")
+            this.props.gameVariant = GAME_VARIANT.chess960
+        }
+        if (typeof props === "string") {
+            console.warn("directly passing a FEN is deprecated, use `{fen: \"" + props + "\"}`")
+            this.props.fen = props
+        }
+        if (!this.props.fen && !this.props.pgn) {
+            this.props.fen = FEN.start
         }
         if (this.props.fen) {
             this.load(this.props.fen)
@@ -105,7 +135,7 @@ export class Chess {
         if (move) {
             return move.gameOver
         } else {
-            return new ChessJs(this.fen()).game_over()
+            return new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960}).game_over()
         }
     }
 
@@ -117,7 +147,7 @@ export class Chess {
         if (move) {
             return move.inDraw === true
         } else {
-            return new ChessJs(this.fen()).in_draw()
+            return new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960}).in_draw()
         }
     }
 
@@ -129,7 +159,7 @@ export class Chess {
         if (move) {
             return move.inStalemate === true
         } else {
-            return new ChessJs(this.fen()).in_stalemate()
+            return new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960}).in_stalemate()
         }
     }
 
@@ -141,7 +171,7 @@ export class Chess {
         if (move) {
             return move.insufficientMaterial === true
         } else {
-            return new ChessJs(this.fen()).insufficient_material()
+            return new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960}).insufficient_material()
         }
     }
 
@@ -161,7 +191,7 @@ export class Chess {
         if (move) {
             return move.inCheckmate === true
         } else {
-            return new ChessJs(this.fen()).in_checkmate()
+            return new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960}).in_checkmate()
         }
     }
 
@@ -173,7 +203,7 @@ export class Chess {
         if (move) {
             return move.inCheck === true
         } else {
-            return new ChessJs(this.fen()).in_check()
+            return new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960}).in_check()
         }
     }
 
@@ -201,13 +231,13 @@ export class Chess {
      * @param fen
      */
     load(fen) {
-        const chess = new ChessJs(fen)
+        const chess = new ChessJs(fen, {chess960: this.props.gameVariant === GAME_VARIANT.chess960})
         if (chess && chess.fen() === fen) {
-            this.pgn = new Pgn()
+            this.pgn = new Pgn(undefined, {chess960: this.props.gameVariant === GAME_VARIANT.chess960})
             if (fen !== FEN.start) {
                 this.pgn.header.tags[TAGS.SetUp] = "1"
                 this.pgn.header.tags[TAGS.FEN] = chess.fen()
-                this.pgn.history.setUpFen = fen
+                this.pgn.history.props.setUpFen = fen
             }
         } else {
             throw Error("Invalid fen " + fen)
@@ -217,12 +247,15 @@ export class Chess {
 
     /**
      * Load a PGN with variations, NAGs, header and annotations. cm-chess uses cm-pgn
-     * fot the header and history. See https://github.com/shaack/cm-pgn
+     * for the header and history. See https://github.com/shaack/cm-pgn
      * @param pgn
      * @param sloppy to allow sloppy SAN
      */
     loadPgn(pgn, sloppy = this.props.sloppy) {
         this.pgn = new Pgn(pgn, {sloppy: sloppy})
+        if(this.pgn.props.chess960) {
+            this.props.gameVariant = GAME_VARIANT.chess960
+        }
         publishEvent(this.observers, {type: EVENT_TYPE.initialized, pgn: pgn})
     }
 
@@ -267,7 +300,7 @@ export class Chess {
      * @returns {{}}
      */
     moves(options = undefined, move = this.lastMove()) {
-        const chessJs = new ChessJs(this.fen(move))
+        const chessJs = new ChessJs(this.fen(move), {chess960: this.props.gameVariant === GAME_VARIANT.chess960})
         return chessJs.moves(options)
     }
 
@@ -301,7 +334,7 @@ export class Chess {
      * @returns {[]} the pieces (positions) at a specific move
      */
     pieces(type = undefined, color = undefined, move = this.lastMove()) {
-        const chessJs = move ? new ChessJs(move.fen) : new ChessJs(this.fen())
+        const chessJs = move ? new ChessJs(move.fen, {chess960: this.props.gameVariant === GAME_VARIANT.chess960}) : new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960})
         let result = []
         for (let i = 0; i < 64; i++) {
             const square = SQUARES[i]
@@ -329,7 +362,7 @@ export class Chess {
      * @returns {{color: any, type: any}|null}
      */
     piece(square, move = this.lastMove()) {
-        const chessJs = move ? new ChessJs(move.fen) : new ChessJs(this.fen())
+        const chessJs = move ? new ChessJs(move.fen, {chess960: this.props.gameVariant === GAME_VARIANT.chess960}) : new ChessJs(this.fen(), {chess960: this.props.gameVariant === GAME_VARIANT.chess960})
         return chessJs.get(square)
     }
 
