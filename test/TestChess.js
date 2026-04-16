@@ -289,6 +289,33 @@ Kc4 7. Qb4+ Kd5 8. Qc5#) 5. Bc5# 1-0`)
         assert.true(result != null)
     })
 
+    it("should promote a pawn via SAN", function () {
+        const chess = new Chess({fen: "rnbqkbnr/ppppppPp/8/8/8/8/PPPPPP1P/RNBQKBNR w KQkq - 0 1"})
+        const move = chess.move("gxh8=Q")
+        assert.true(move !== null)
+        assert.equal(move.promotion, "q")
+        assert.true(move.flags.includes("p"))
+        assert.equal(chess.piece("h8").type, "q")
+        assert.equal(chess.piece("h8").color, "w")
+    })
+
+    it("should promote to a knight (underpromotion)", function () {
+        const chess = new Chess({fen: "4k3/P7/8/8/8/8/8/4K3 w - - 0 1"})
+        const move = chess.move("a8=N")
+        assert.true(move !== null)
+        assert.equal(move.promotion, "n")
+        assert.equal(chess.piece("a8").type, "n")
+    })
+
+    it("should capture en passant", function () {
+        const chess = new Chess({fen: "rnbqkbnr/pp1ppppp/8/2pP4/8/8/PPP1PPPP/RNBQKBNR w KQkq c6 0 1"})
+        const move = chess.move("dxc6")
+        assert.true(move !== null)
+        assert.true(move.flags.includes("e"))
+        assert.equal(move.fen, "rnbqkbnr/pp1ppppp/2P5/8/8/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1")
+        assert.equal(chess.piece("c5"), null)
+    })
+
     it("should load a sloppy pgn", function () {
         const pgn = `pgn [SetUp "1"]
 [FEN "r1R2r1k/1R6/1P2B2p/4pPp1/4N1P1/7P/5P2/2R3K1 w - - 1 44"]

@@ -33,6 +33,17 @@ describe("Testing Chess 960", function () {
 
     })
 
+    it("should do kingside castling (O-O) in chess960", function () {
+        const fen = "rnbqkbnr/pppppppp/8/8/8/3PP1BN/PPP2PPP/RNBQ1K1R w KQkq - 0 1"
+        const chess = new Chess({gameVariant: GAME_VARIANT.chess960})
+        chess.load(fen)
+        const move = chess.move("O-O")
+        assert.true(move !== null)
+        assert.equal(move.san, "O-O")
+        assert.equal(chess.piece("g1").type, "k")
+        assert.equal(chess.piece("f1").type, "r")
+    })
+
     it("should load a chess960 game from a valid chess960 pgn", function () {
         const pgn = `[Event "Freestyle Weissenhaus KO"]
 [Site "Wangels GER"]
