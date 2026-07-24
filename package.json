@@ -1,6 +1,6 @@
 {
   "name": "cm-chess",
-  "version": "3.7.0",
+  "version": "4.0.0",
   "description": "It's like chess.js, but in ES6 and can handle variations (tree-structured move history)",
   "main": "./src/Chess.js",
   "type": "module",
@@ -25,7 +25,7 @@
   "homepage": "https://github.com/shaack/cm-chess#readme",
   "dependencies": {
     "chess.mjs": "^2.3.2",
-    "cm-pgn": "4.1.2"
+    "cm-pgn": "^5.0.0"
   },
   "devDependencies": {
     "teevi": "^2.4.1"
