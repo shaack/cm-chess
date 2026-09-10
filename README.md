@@ -1,6 +1,6 @@
 # cm-chess
 
-A chess engine wrapper inspired by [chess.js](https://github.com/jhlywa/chess.js), with first-class support for:
+A chess validation library inspired by [chess.js](https://github.com/jhlywa/chess.js), with first-class support for:
 
 - **Variations** — full tree-structured move history (not just a linear list)
 - **PGN import/export** — header tags, NAGs, annotations and comments
