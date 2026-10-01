@@ -67,7 +67,9 @@ describe("Chess", function () {
         assert.equal(firstMove.color, "w")
         assert.equal(firstMove.san, "e4")
         assert.equal(firstMove.fen, "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1")
-        assert.equal(chess.history()[19].commentAfter, "Kasparov schüttelt kurz den Kopf")
+        // cm-pgn 5: comments after a move are an array in `comments`
+        assert.equal(chess.history()[19].comments.length, 1)
+        assert.equal(chess.history()[19].comments[0], "Kasparov schüttelt kurz den Kopf")
     })
 
     it("should load a pgn with SetUp", () => {
